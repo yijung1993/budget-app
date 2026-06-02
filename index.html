@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#9FB5C3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <style>
-@font-face{font-family:'JFOpenHuninn';src:url('jf-openhuninn-2.1.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'JFOpenHuninn';src:url('粉圓體.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --p:#C8A5A3;--p2:#D0B0B1;--p3:#C59390;
@@ -26,28 +26,30 @@
   --text:#3A2828;--text2:#907878;
   --border:#EDE0DC;--shadow:rgba(180,130,130,.06);
   --r:16px;--nb:66px;--safe:env(safe-area-inset-bottom,0px);
+  --hdr-grad:linear-gradient(135deg,#C59390 0%,#C8A5A3 50%,#D0B0B1 100%);
+  --font-family:'JFOpenHuninn','Nunito',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif;
 }
 html,body{height:100%}
-body{font-family:'JFOpenHuninn','Nunito',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif;
-  background:var(--bg);color:var(--text);max-width:1200px;margin:0 auto;
+body{font-family:var(--font-family);
+  background:var(--bg);color:var(--text);max-width:1000px;margin:0 auto;
   min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;user-select:none}
 #app{min-height:100vh;padding-bottom:calc(var(--nb)+var(--safe))}
 
 /* top bar */
 .top-bar{display:none;background:var(--surface);border-bottom:2px solid var(--border);
   position:sticky;top:0;z-index:100;box-shadow:0 2px 14px var(--shadow)}
-.tbi{max-width:1200px;margin:0 auto;height:62px;padding:0 28px;display:flex;align-items:center;gap:8px}
+.tbi{max-width:1000px;margin:0 auto;height:62px;padding:0 28px;display:flex;align-items:center;gap:8px}
 .top-logo{font-size:20px;font-weight:800;color:var(--p);margin-right:20px;white-space:nowrap}
 .top-nav{display:flex;gap:4px;flex:1}
-.tnb{padding:7px 14px;border:none;background:transparent;border-radius:10px;font-size:14px;
+.tnb{padding:7px 14px;border:none;background:transparent;border-radius:10px;font-size:18px;
   font-weight:700;cursor:pointer;color:var(--text2);transition:all .18s;
   display:flex;align-items:center;gap:5px;font-family:inherit}
 .tnb:hover{background:var(--bg);color:var(--text)}
 .tnb.active{background:var(--p);color:white}
 
 /* header */
-.hdr{background:linear-gradient(135deg,#C59390 0%,#C8A5A3 50%,#D0B0B1 100%);color:white}
-.hdr-in{max-width:1200px;margin:0 auto;padding:12px 18px 16px}
+.hdr{background:var(--hdr-grad);color:white}
+.hdr-in{max-width:1000px;margin:0 auto;padding:12px 18px 16px}
 .hdr h1{font-size:30px;font-weight:800;letter-spacing:-.3px}
 .hdr .sub{font-size:13px;opacity:.82;margin-top:2px}
 .hdr-row{display:flex;align-items:center;justify-content:space-between}
@@ -169,7 +171,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .icon-btn{width:34px;height:34px;border:none;border-radius:9px;cursor:pointer;
   font-size:16px;font-family:inherit;display:flex;align-items:center;justify-content:center;
   transition:background .15s}
-.icon-btn.edit{background:#F5ECEA}.icon-btn.edit:hover{background:var(--border)}
+.icon-btn.edit{background:#F5ECEA;font-weight:900;letter-spacing:1px}.icon-btn.edit:hover{background:var(--border)}
 .icon-btn.del{background:#FADADA}.icon-btn.del:hover{background:var(--expense);color:white}
 .add-fab{display:flex;align-items:center;gap:6px;padding:9px 16px;border:2px dashed var(--border);
   border-radius:12px;background:transparent;font-size:14px;font-weight:700;cursor:pointer;
@@ -185,7 +187,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .tx-ico.expense{background:#F8ECEC}
 .tx-ico.transfer{background:#F5EFED}
 .tx-info{flex:1;min-width:0}
-.tx-cat{font-size:20px;font-weight:700}
+.tx-cat{font-size:15px;font-weight:700}
 .tx-meta{font-size:15px;color:var(--text2);margin-top:3px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .tx-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
 .nec-tag{display:inline-block;padding:2px 7px;border-radius:5px;font-size:12px;font-weight:700}
@@ -193,7 +195,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .nec-tag.w{background:#F0E8D0;color:#806020}
 .acc-tag{display:inline-block;padding:2px 7px;border-radius:5px;font-size:12px;font-weight:600;
   background:#F5ECEA;color:var(--text2)}
-.tx-amt{font-size:22px;font-weight:800;flex-shrink:0}
+.tx-amt{font-size:17px;font-weight:800;flex-shrink:0}
 .tx-amt.income{color:var(--income)}
 .tx-amt.expense{color:var(--expense)}
 .tx-actions{display:flex;gap:5px;flex-shrink:0}
@@ -222,7 +224,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .cal-title-text{font-size:18px;font-weight:800;color:white}
 .weekdays{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:5px}
 .wday{font-size:12px;color:var(--text2);font-weight:700;padding:4px 0}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;grid-auto-rows:76px}
 .cal-day{border-radius:10px;display:flex;flex-direction:column;align-items:center;
   justify-content:center;cursor:pointer;padding:4px 1px;min-height:48px;transition:background .15s}
 .cal-day:active{opacity:.7}
@@ -322,15 +324,15 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 
 /* bottom nav */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:1200px;height:calc(var(--nb)+var(--safe));
+  width:100%;max-width:1000px;height:calc(var(--nb)+var(--safe));
   background:white;border-top:2px solid var(--border);display:flex;
   padding-bottom:var(--safe);z-index:50;box-shadow:0 -4px 20px var(--shadow)}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:2px;cursor:pointer;border:none;background:transparent;color:var(--text2);
   transition:color .18s;font-family:inherit}
 .nav-btn.active{color:var(--p)}
-.nav-ico{font-size:26px;line-height:1}
-.nav-lbl{font-size:13px;font-weight:700}
+.nav-ico{font-size:24px;line-height:1}
+.nav-lbl{font-size:18px;font-weight:700}
 
 /* misc */
 .empty{text-align:center;padding:50px 20px;color:var(--text2)}
@@ -461,13 +463,13 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
   .top-bar{display:block}
   .bottom-nav{display:none!important}
   .hdr-in{padding:28px 28px 20px}
-  .content{max-width:1200px;margin:0 auto;padding:24px 28px}
+  .content{max-width:1000px;margin:0 auto;padding:24px 28px}
   .add-layout{gap:20px}
   .add-layout>.card{margin-bottom:0}
   .stats-2col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
   .stats-2col>.card{margin-bottom:0}
   .cal-day{min-height:64px;border-radius:12px}
-  .cdn{font-size:16px}.cda{font-size:20px;width:75%}.cal-grid{gap:5px}
+  .cdn{font-size:16px}.cda{font-size:20px;width:75%}.cal-grid{gap:5px;grid-auto-rows:84px}
   .overlay{align-items:center}
   .modal{border-radius:var(--r);max-width:520px;margin:0 auto;padding:24px 28px 28px}
   .modal-handle{display:none}
@@ -489,13 +491,18 @@ const _fbApp=firebase.initializeApp({
 });
 const _db=firebase.firestore();
 const DEVICE_ID=(()=>{let id=localStorage.getItem('budget_dev_id');if(!id){id='d'+Math.random().toString(36).slice(2,10);localStorage.setItem('budget_dev_id',id);}return id;})();
-let _roomListener=null;
+const _roomListeners={};
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────
 const ACC_COLORS=['#F0924A','#4A78C4','#5A9068','#C45555','#8B6CC8','#C49830','#4AA8A8','#A86870'];
-const ACC_TYPES=[
-  {id:'cash',name:'現金',icon:'💵'},{id:'bank',name:'銀行',icon:'🏦'},
-  {id:'credit',name:'信用卡',icon:'💳'},{id:'invest',name:'投資',icon:'📈'},{id:'other',name:'其他',icon:'💰'},
+const DEFAULT_ACC_TYPES=[
+  {id:'cash',name:'現金',icon:'💵'},
+  {id:'bank',name:'銀行帳戶',icon:'🏦'},
+  {id:'stored',name:'儲值帳戶',icon:'🪙'},
+  {id:'invest',name:'投資帳戶',icon:'📈'},
+  {id:'credit',name:'信用卡',icon:'💳'},
+  {id:'loan',name:'借貸帳戶',icon:'🤝'},
+  {id:'other',name:'其他',icon:'💰'},
 ];
 const DEFAULT_ACCOUNTS=[
   {id:'cash',name:'現金',type:'cash',icon:'💵',color:'#F0924A',init:0},
@@ -528,7 +535,7 @@ const EMOJI_QUICK=['🍜','🍱','🍽️','🍔','🍕','🧋','☕','🥗','�
   '🎮','🎬','🎵','🎨','🎲','📱','🎭','🎯',
   '💊','🏥','🩺','🏃','💪','🧘','🌿',
   '🏠','🔑','🪴','🛋️','💡','🔧',
-  '📚','📖','✏️','🎓','💻','🖊️',
+  '📚','📖','···','🎓','💻','🖊️',
   '💰','💳','📦','⭐','🌟','❤️','🌈','🐱','🐶','🌸','🌺','🎀'];
 
 const INS_TYPES=['壽險','醫療險','意外險','車險','產險','其他'];
@@ -587,22 +594,63 @@ let state={
   statsYear:{y:_now.getFullYear()},
   modal:null,
   editForm:{},
-  sharedRoom:load('budget_room',null),
+  sharedRoom:null,
   books:load('budget_books',null),
   activeBook:load('budget_active_book','all'),
+  booksTab:'active',
+  accTypes:load('budget_acc_types',null),
+  budgetMode:load('budget_mode','month'),
+  homeBudgetPeriod:load('budget_mode','month'),
+  theme:load('budget_theme','pink'),
+  fontStyle:load('budget_font','huninn'),
 };
 // 帳本初始化：若第一次執行則建立預設帳本並將舊資料歸入
 if(!state.books){
-  state.books=[{id:'default',name:'個人帳本',icon:'📒',type:'personal',currency:'TWD',isDefault:true,isArchived:false}];
+  state.books=[{id:'default',name:'個人帳本',icon:'📒',type:'personal',currency:'TWD',isDefault:true,isArchived:false,createdAt:todayStr()}];
   state.txs=state.txs.map(t=>({...t,bookId:t.bookId||'default'}));
   save('budget_books',state.books);
   save('budget_txs',state.txs);
 }
+if(!state.accTypes){
+  state.accTypes=DEFAULT_ACC_TYPES;
+  save('budget_acc_types',state.accTypes);
+}
+// ── THEMES & FONTS ─────────────────────────────────────────────────────────
+const THEMES={
+  pink:{name:'莫蘭迪粉',swatches:['#C59390','#C8A5A3','#D0B0B1'],
+    vars:{'--p':'#C8A5A3','--p2':'#D0B0B1','--p3':'#C59390','--latte':'#C59390','--latte2':'#D0B0B1',
+          '--surface':'#F9F3F2','--text':'#3A2828','--text2':'#907878','--border':'#EDE0DC',
+          '--shadow':'rgba(180,130,130,.06)','--hdr-grad':'linear-gradient(135deg,#C59390 0%,#C8A5A3 50%,#D0B0B1 100%)'}},
+  green:{name:'莫蘭迪綠',swatches:['#8DAD93','#9DB8A3','#AEC5B4'],
+    vars:{'--p':'#9DB8A3','--p2':'#AEC5B4','--p3':'#8DAD93','--latte':'#8DAD93','--latte2':'#AEC5B4',
+          '--surface':'#F3F7F4','--text':'#28362E','--text2':'#6A8872','--border':'#DCE8DF',
+          '--shadow':'rgba(100,140,110,.06)','--hdr-grad':'linear-gradient(135deg,#8DAD93 0%,#9DB8A3 50%,#AEC5B4 100%)'}},
+  blue:{name:'莫蘭迪藍',swatches:['#8B9FBA','#9BAFC2','#ACCBD8'],
+    vars:{'--p':'#9BAFC2','--p2':'#ACCBD8','--p3':'#8B9FBA','--latte':'#8B9FBA','--latte2':'#ACCBD8',
+          '--surface':'#F3F5F9','--text':'#28303A','--text2':'#6878A0','--border':'#DCE0EA',
+          '--shadow':'rgba(100,120,160,.06)','--hdr-grad':'linear-gradient(135deg,#8B9FBA 0%,#9BAFC2 50%,#ACCBD8 100%)'}},
+  warm:{name:'莫蘭迪橙',swatches:['#B89360','#C9A87C','#D8BC98'],
+    vars:{'--p':'#C9A87C','--p2':'#D8BC98','--p3':'#B89360','--latte':'#B89360','--latte2':'#D8BC98',
+          '--surface':'#FAF6F0','--text':'#3A2E20','--text2':'#9A8060','--border':'#EDE5D8',
+          '--shadow':'rgba(160,130,80,.06)','--hdr-grad':'linear-gradient(135deg,#B89360 0%,#C9A87C 50%,#D8BC98 100%)'}},
+};
+const FONTS={
+  huninn:{name:'粉圓 jf-openhuninn',family:"'JFOpenHuninn','Nunito',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  system:{name:'系統預設字型',family:"-apple-system,'PingFang TC','Microsoft JhengHei UI','Helvetica Neue',sans-serif"},
+};
+function applyAppTheme(){
+  const root=document.documentElement.style;
+  const t=THEMES[state.theme||'pink'];
+  if(t)Object.entries(t.vars).forEach(([k,v])=>root.setProperty(k,v));
+  const f=FONTS[state.fontStyle||'huninn'];
+  if(f)document.body.style.fontFamily=f.family;
+}
+
 state.form=defaultForm();
 // 啟動時自動處理到期固定費用
 setTimeout(()=>{const n=processFixedExpenses();if(n>0)showToast(`已自動記入 ${n} 筆固定費用 ✓`);},300);
-// 啟動時若已在房間則重連
-if(state.sharedRoom)setTimeout(()=>startRoomListener(state.sharedRoom),800);
+// 啟動時重連所有共同帳本
+setTimeout(()=>{(state.books||[]).filter(b=>b.type==='shared'&&b.roomCode).forEach(b=>_startBookListener(b.roomCode,b.id));},800);
 
 function defaultForm(){
   const accs=state?state.accounts:DEFAULT_ACCOUNTS;
@@ -644,12 +692,14 @@ function saveAll(){
   save('budget_fixed',state.fixedExpenses);
   save('budget_insurances',state.insurances);
   save('budget_ins_members',state.insMembers);
-  if(state.sharedRoom){
-    _db.collection('rooms').doc(state.sharedRoom).set({
-      txs:state.txs,accounts:state.accounts,cats:state.cats,
-      updatedBy:DEVICE_ID,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  save('budget_acc_types',state.accTypes);
+  save('budget_mode',state.budgetMode);
+  (state.books||[]).filter(b=>b.type==='shared'&&b.roomCode).forEach(book=>{
+    const txs=state.txs.filter(t=>t.bookId===book.id).map(({bookId:_bd,...t})=>t);
+    _db.collection('rooms').doc(book.roomCode).set({
+      bookName:book.name,txs,updatedBy:DEVICE_ID,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
     }).catch(()=>{});
-  }
+  });
 }
 
 // ── SHARED ROOM ────────────────────────────────────────────────────────────
@@ -657,58 +707,70 @@ function genRoomCode(){
   const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   return Array.from({length:6},()=>c[Math.floor(Math.random()*c.length)]).join('');
 }
-function startRoomListener(code){
-  if(_roomListener){_roomListener();_roomListener=null;}
-  _roomListener=_db.collection('rooms').doc(code).onSnapshot(snap=>{
+function _startBookListener(code,bookId){
+  if(_roomListeners[code]){_roomListeners[code]();delete _roomListeners[code];}
+  _roomListeners[code]=_db.collection('rooms').doc(code).onSnapshot(snap=>{
     if(!snap.exists)return;
     const d=snap.data();
     if(d.updatedBy===DEVICE_ID)return;
-    state.txs=d.txs||state.txs;
-    state.accounts=d.accounts||state.accounts;
-    state.cats=d.cats||state.cats;
+    const incoming=(d.txs||[]).map(t=>({...t,bookId}));
+    state.txs=[...state.txs.filter(t=>t.bookId!==bookId),...incoming];
     save('budget_txs',state.txs);
-    save('budget_accounts',state.accounts);
-    save('budget_cats_exp',state.cats.expense);
-    save('budget_cats_inc',state.cats.income);
     showToast('✓ 已同步對方的最新資料');
     renderApp();
   },()=>{});
 }
-async function createRoom(){
+async function createBookRoom(bookId){
   try{
     let code=genRoomCode();
     let snap=await _db.collection('rooms').doc(code).get();
     let t=0;while(snap.exists&&t<5){code=genRoomCode();snap=await _db.collection('rooms').doc(code).get();t++;}
+    const book=(state.books||[]).find(b=>b.id===bookId);
+    if(!book)return;
+    const txs=state.txs.filter(t=>t.bookId===bookId).map(({bookId:_bd,...t})=>t);
     await _db.collection('rooms').doc(code).set({
-      txs:state.txs,accounts:state.accounts,cats:state.cats,
-      updatedBy:DEVICE_ID,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      bookName:book.name,txs,updatedBy:DEVICE_ID,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
     });
-    state.sharedRoom=code;save('budget_room',code);
-    startRoomListener(code);
-    showToast('共同帳本已建立 ✓');renderApp();
+    const idx=(state.books||[]).findIndex(b=>b.id===bookId);
+    if(idx>=0)state.books[idx]={...state.books[idx],roomCode:code};
+    saveAll();state.editForm={...state.editForm,roomCode:code};
+    _startBookListener(code,bookId);
+    showToast('房間碼已建立 ✓');renderApp();
   }catch(e){showToast('建立失敗，請確認網路連線');}
 }
-async function joinRoom(code){
+async function joinBookRoom(code){
   code=(code||'').toUpperCase().replace(/\s/g,'');
   if(code.length!==6){showToast('請輸入 6 位房間碼');return;}
   try{
     const snap=await _db.collection('rooms').doc(code).get();
     if(!snap.exists){showToast('找不到此房間，請確認房間碼');return;}
     const d=snap.data();
-    state.txs=d.txs||[];
-    state.accounts=d.accounts||DEFAULT_ACCOUNTS;
-    state.cats=d.cats||{expense:DEFAULT_EXP_CATS,income:DEFAULT_INC_CATS};
+    const existing=(state.books||[]).find(b=>b.roomCode===code);
+    const bookId=existing?existing.id:('bk_'+code);
+    if(!existing){
+      const newBook={id:bookId,name:d.bookName||'共同帳本',icon:'👥',
+        type:'shared',currency:'TWD',isDefault:false,isArchived:false,
+        createdAt:todayStr(),roomCode:code};
+      state.books=[...(state.books||[]),newBook];
+    }
+    const incoming=(d.txs||[]).map(t=>({...t,bookId}));
+    state.txs=[...state.txs.filter(t=>t.bookId!==bookId),...incoming];
+    state.activeBook=bookId;
     saveAll();
-    state.sharedRoom=code;save('budget_room',code);
-    startRoomListener(code);
-    showToast('已加入共同帳本 ✓');renderApp();
+    _startBookListener(code,bookId);
+    state.modal=null;showToast('已加入共同帳本 ✓');renderApp();
   }catch(e){showToast('加入失敗，請確認網路連線');}
 }
-function leaveRoom(){
-  if(!confirm('確定退出共同帳本？退出後本機資料仍保留。'))return;
-  if(_roomListener){_roomListener();_roomListener=null;}
-  state.sharedRoom=null;save('budget_room',null);
-  showToast('已退出共同帳本');renderApp();
+function leaveBookRoom(bookId){
+  const book=(state.books||[]).find(b=>b.id===bookId);
+  if(!book||!book.roomCode)return;
+  if(!confirm('確定退出共同帳本？退出後本機帳本資料仍保留。'))return;
+  const code=book.roomCode;
+  if(_roomListeners[code]){_roomListeners[code]();delete _roomListeners[code];}
+  const idx=(state.books||[]).findIndex(b=>b.id===bookId);
+  if(idx>=0)delete state.books[idx].roomCode;
+  if(state.activeBook===bookId)state.activeBook='all';
+  saveAll();state.modal=null;showToast('已退出共同帳本');renderApp();
 }
 
 // ── HELPERS ────────────────────────────────────────────────────────────────
@@ -1257,27 +1319,30 @@ function renderApp(){
     renderTopBar()+renderView()+(state.modal?renderModal():'')+renderBottomNav()+
     '';
   attachInputs();bindOverlay();
-  if(state.view==='stats'&&state.statsView==='month')setTimeout(()=>drawDonut(),50);
+  if(state.view==='stats'&&state.statsView==='month'){setTimeout(()=>drawDonut(),50);setTimeout(()=>drawCatPie(),50);}
   if(state.view==='calendar')setTimeout(()=>drawDonut('cal-donut',state.calMonth.y,state.calMonth.m),50);
 }
 function renderTopBar(){
-  const tabs=[{id:'add',ico:'🏠',lbl:'首頁'},{id:'calendar',ico:'📅',lbl:'行事曆'},
-    {id:'assets',ico:'🏦',lbl:'資產'},{id:'stats',ico:'📊',lbl:'統計'},
-    {id:'history',ico:'📋',lbl:'歷史'},{id:'insurance',ico:'🛡️',lbl:'保險'},
-    {id:'settings',ico:'⚙️',lbl:'設定'}];
+  const tabs=[{id:'add',img:'home',lbl:'首頁'},{id:'calendar',img:'calendar',lbl:'行事曆'},
+    {id:'assets',img:'assets',lbl:'資產'},{id:'stats',img:'stats',lbl:'統計'},
+    {id:'history',img:'history',lbl:'歷史'},{id:'insurance',img:'insurance',lbl:'保險'},
+    {id:'settings',img:'settings',lbl:'設定'}];
   return`<div class="top-bar"><div class="tbi"><div class="top-logo">🏡 記帳本</div>
     <nav class="top-nav">${tabs.map(t=>
-      `<button class="tnb${state.view===t.id?' active':''}" data-nav="${t.id}"><span>${t.ico}</span>${t.lbl}</button>`
+      `<button class="tnb${state.view===t.id?' active':''}" data-nav="${t.id}" style="opacity:${state.view===t.id?'1':'0.55'}">
+        <img src="icons/${t.img}.png" width="22" height="22" style="vertical-align:middle;margin-right:4px">${t.lbl}
+      </button>`
     ).join('')}</nav></div></div>`;
 }
 function renderBottomNav(){
-  const tabs=[{id:'add',ico:'🏠',lbl:'首頁'},{id:'calendar',ico:'📅',lbl:'行事曆'},
-    {id:'assets',ico:'🏦',lbl:'資產'},{id:'stats',ico:'📊',lbl:'統計'},
-    {id:'history',ico:'📋',lbl:'歷史'},{id:'insurance',ico:'🛡️',lbl:'保險'},
-    {id:'settings',ico:'⚙️',lbl:'設定'}];
+  const tabs=[{id:'add',img:'home',lbl:'首頁'},{id:'calendar',img:'calendar',lbl:'行事曆'},
+    {id:'assets',img:'assets',lbl:'資產'},{id:'stats',img:'stats',lbl:'統計'},
+    {id:'history',img:'history',lbl:'歷史'},{id:'insurance',img:'insurance',lbl:'保險'},
+    {id:'settings',img:'settings',lbl:'設定'}];
   return`<nav class="bottom-nav">${tabs.map(t=>
-    `<button class="nav-btn${state.view===t.id?' active':''}" data-nav="${t.id}">
-      <span class="nav-ico">${t.ico}</span><span class="nav-lbl">${t.lbl}</span></button>`
+    `<button class="nav-btn${state.view===t.id?' active':''}" data-nav="${t.id}" style="opacity:${state.view===t.id?'1':'0.5'}">
+      <span class="nav-ico"><img src="icons/${t.img}.png" width="28" height="28"></span>
+      <span class="nav-lbl">${t.lbl}</span></button>`
   ).join('')}</nav>`;
 }
 function renderModal(){
@@ -1298,6 +1363,9 @@ function renderModal(){
   if(type==='viewPDF')return renderViewPdfModal();
   if(type==='bookPicker')return renderBookPickerModal();
   if(type==='editBook')return renderEditBookModal();
+  if(type==='editAccType')return renderEditAccTypeModal();
+  if(type==='bookMenu')return renderBookMenuModal();
+  if(type==='joinRoom')return renderJoinRoomModal();
   return'';
 }
 function renderView(){
@@ -1354,7 +1422,7 @@ function renderHomeView(){
   const efCard=`<div class="card ef-card">
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
       <div style="font-size:22px;font-weight:900;color:#7A4848;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">緊急預備金</div>
-      <button class="icon-btn edit" data-a="editEF" style="flex-shrink:0">✏️</button>
+      <button class="icon-btn edit" data-a="editEF" style="flex-shrink:0">···</button>
     </div>
     <div class="ef-bal" style="color:${(efBal||0)>=0?'var(--income)':'var(--expense)'}">$${fmt(efBal||0)}</div>
     <div class="ef-bar-wrap">
@@ -1374,7 +1442,7 @@ function renderHomeView(){
         <div style="font-size:22px;font-weight:900;color:#7A4848;white-space:nowrap">夢想基金</div>
         ${df.wish?`<span style="font-size:22px;font-weight:700;color:#8B1A1A;background:rgba(139,26,26,0.1);padding:2px 12px;border-radius:8px;white-space:nowrap">${df.wish}</span>`:''}
       </div>
-      <button class="icon-btn edit" data-a="editDF" style="flex-shrink:0">✏️</button>
+      <button class="icon-btn edit" data-a="editDF" style="flex-shrink:0">···</button>
     </div>
     <div class="ef-bal" style="color:${(dfBal||0)>=0?'var(--income)':'var(--expense)'}">$${fmt(dfBal||0)}</div>
     <div class="ef-bar-wrap">
@@ -1392,10 +1460,11 @@ function renderHomeView(){
   const dayI=dayTxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
 
   return`<div class="hdr"><div class="hdr-in">
-    <div style="margin-bottom:8px">
+    <div style="display:flex;align-items:center;margin-bottom:6px">
       <button class="book-switcher" data-a="openBookPicker">${activeBookIcon()} ${activeBookName()} ▾</button>
+      <h1 style="flex:1;text-align:center;font-size:30px;font-weight:800;letter-spacing:-.3px">${n.getFullYear()}年${n.getMonth()+1}月</h1>
+      <div style="width:auto;visibility:hidden;padding:5px 13px;font-size:14px">${activeBookName()} ▾</div>
     </div>
-    <h1>${n.getFullYear()}年${n.getMonth()+1}月</h1>
     <div class="sum-bar">
       <div class="sum-item"><div class="lbl">本月收入</div><div class="val">$${fmt(sum.income)}</div></div>
       <div class="sum-item"><div class="lbl">本月支出</div><div class="val">$${fmt(sum.expense)}</div></div>
@@ -1417,7 +1486,67 @@ function renderHomeView(){
     </div>`:'';})()}
     <div class="add-layout" style="margin-bottom:12px">${efCard}${dfCard}</div>
     <button class="save-btn" data-a="openAdd" style="margin-bottom:12px">📝 記一筆</button>
-    <div class="card">
+    ${(()=>{
+      const bm=state.budgetMode||'month';
+      const bp=state.homeBudgetPeriod||bm;
+      // 計算本週日期範圍
+      const todayD=new Date();const dow=todayD.getDay();
+      const weekStart=new Date(todayD);weekStart.setDate(todayD.getDate()-dow);weekStart.setHours(0,0,0,0);
+      const weekStartStr=weekStart.toISOString().split('T')[0];
+      // 計算週/月期間的交易
+      const weekTxs=txs.filter(t=>t.date>=weekStartStr&&t.date<=todayStr());
+      const monthTxsList=txs.filter(t=>{const d=new Date(t.date);return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth();});
+      const periodTxs=bp==='week'?weekTxs:monthTxsList;
+      const expCats=state.cats.expense.filter(c=>c.budget>0);
+      // 判斷當前瀏覽週期是否與預算週期相同 (才能做進度比較)
+      const sameMode=bp===bm;
+      const catRows=expCats.map(cat=>{
+        const spent=periodTxs.filter(t=>t.type==='expense'&&t.category===cat.id).reduce((s,t)=>s+t.amount,0);
+        if(sameMode){
+          const remain=cat.budget-spent;
+          const pct=Math.min(Math.round((spent/cat.budget)*100),100);
+          return`<div style="margin-bottom:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="display:flex;align-items:center;gap:7px;min-width:0">
+                <span style="font-size:18px">${cat.icon}</span>
+                <span style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cat.name}</span>
+                <span style="font-size:11px;color:var(--text2);white-space:nowrap">${bm==='week'?'週':'月'}預算 $${fmt(cat.budget)}</span>
+              </div>
+              <div style="text-align:right;flex-shrink:0;margin-left:8px">
+                <span style="font-size:13px;color:var(--expense);font-weight:700">已用 $${fmt(spent)}</span>
+                <span style="font-size:13px;color:${remain>=0?'var(--income)':'var(--expense)'};font-weight:700;margin-left:6px">剩 $${fmt(Math.abs(remain))}${remain<0?' ⚠️':''}</span>
+              </div>
+            </div>
+            <div class="bar-bg"><div class="bar-fill ${pct>=100?'over':pct>=80?'warn':'ok'}" style="width:${pct}%"></div></div>
+          </div>`;
+        }else{
+          // 不同週期：只顯示花費，標注預算為參考
+          return`<div style="margin-bottom:12px;display:flex;align-items:center;gap:7px;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:7px;min-width:0">
+              <span style="font-size:18px">${cat.icon}</span>
+              <span style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cat.name}</span>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span style="font-size:14px;font-weight:800;color:var(--expense)">$${fmt(spent)}</span>
+              <span style="font-size:11px;color:var(--text2);margin-left:5px">(${bm==='week'?'週':'月'}預算 $${fmt(cat.budget)} 參考)</span>
+            </div>
+          </div>`;
+        }
+      }).join('');
+      return`<div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <span style="font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px">預算進度</span>
+          <div style="display:flex;gap:4px">
+            <button class="stab${bp==='week'?' active':''}" style="padding:5px 12px;font-size:12px" data-a="homeBudgetPeriod" data-v="week">本週</button>
+            <button class="stab${bp==='month'?' active':''}" style="padding:5px 12px;font-size:12px" data-a="homeBudgetPeriod" data-v="month">本月</button>
+          </div>
+        </div>
+        ${!sameMode?`<div style="font-size:11px;color:var(--text2);margin-bottom:10px;padding:6px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">
+          ℹ️ 你設定的是「${bm==='week'?'週':'月'}預算」，切回「${bm==='week'?'本週':'本月'}」可看完整進度條</div>`:''}
+        ${expCats.length>0?catRows:`<div class="empty" style="padding:20px 0"><div class="ei" style="font-size:32px">📋</div><p style="font-size:13px">尚未設定類別預算<br><span style="color:var(--p)">可至「設定 → 類別管理」設定</span></p></div>`}
+      </div>`;
+    })()}
+    <div class="card" style="margin-top:12px">
       <div class="day-nav">
         <button class="day-nb" data-a="homeDayPrev">‹</button>
         <span style="font-size:18px;font-weight:700;color:var(--text2)">
@@ -1530,7 +1659,7 @@ function renderAccountsView(){
   const total=state.accounts.reduce((s,acc)=>s+accBalance(acc.id),0);
   const rows=state.accounts.map(acc=>{
     const bal=accBalance(acc.id);
-    const type=ACC_TYPES.find(t=>t.id===acc.type);
+    const type=(state.accTypes||DEFAULT_ACC_TYPES).find(t=>t.id===acc.type);
     const isCredit=acc.type==='credit';
     const balColor=hide?'var(--text2)':isCredit?(bal<0?'var(--expense)':'var(--income)'):(bal>=0?'var(--income)':'var(--expense)');
     const balText=hide?'••••':isCredit?`待繳 $${fmt(Math.abs(bal))}`:`$${fmt(bal)}`;
@@ -1543,7 +1672,7 @@ function renderAccountsView(){
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:17px;font-weight:800;color:${balColor}">${balText}</span>
         <div style="display:flex;gap:4px">
-          <button class="icon-btn edit" data-a="editAcc" data-v="${acc.id}">✏️</button>
+          <button class="icon-btn edit" data-a="editAcc" data-v="${acc.id}">···</button>
           <button class="icon-btn del" data-a="delAcc" data-v="${acc.id}">🗑️</button>
         </div>
       </div>
@@ -1556,7 +1685,7 @@ function renderAccountsView(){
         <div style="font-size:13px;opacity:.85">淨資產</div>
         <div style="font-size:34px;font-weight:800">${hide?'••••••':'$'+fmt(total)}</div>
       </div>
-      <button class="cal-nb" data-a="toggleHideBal" style="font-size:18px">${hide?'🙈':'👁'}</button>
+      <button class="eye-btn${hide?' off':''}" data-a="toggleHideBal">👁</button>
     </div>
   </div></div>
   <div class="content"><div class="card">
@@ -1577,44 +1706,70 @@ function renderAssetsView(){
   const subTabs=[{id:'accounts',lbl:'帳戶'},{id:'loans',lbl:'貸款'}];
   let content='';
   if(tab==='accounts'){
-    const rows=state.accounts.map(acc=>{
-      const bal=accBalance(acc.id);const type=ACC_TYPES.find(t=>t.id===acc.type);
-      const isCredit=acc.type==='credit';
-      const balColor=hide?'var(--text2)':isCredit?(bal<0?'var(--expense)':'var(--income)'):(bal>=0?'var(--income)':'var(--expense)');
-      const balText=hide?'* * * *':isCredit?`待繳 $${fmt(Math.abs(bal))}`:`$${fmt(bal)}`;
-      return`<div class="setting-row">
-        <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border)">${acc.icon}</div>
-        <div class="setting-info"><div class="setting-name">${acc.name}</div>
-          <div class="setting-sub">${type?.name||acc.type}${acc.creditLimit>0?` · 額度 $${fmt(acc.creditLimit)}`:''}</div></div>
+    const types=state.accTypes||DEFAULT_ACC_TYPES;
+    const typeGroups=types.map(tp=>{
+      const accs=state.accounts.filter(a=>a.type===tp.id);
+      if(!accs.length)return'';
+      const rows=accs.map(acc=>{
+        const bal=accBalance(acc.id);const isCredit=acc.type==='credit';
+        const balColor=hide?'var(--text2)':isCredit?(bal<0?'var(--expense)':'var(--income)'):(bal>=0?'var(--income)':'var(--expense)');
+        const balText=hide?'* * * *':isCredit?`待繳 $${fmt(Math.abs(bal))}`:`$${fmt(bal)}`;
+        return`<div class="setting-row" style="padding:8px 0">
+          <div class="setting-ico" style="width:36px;height:36px;border-radius:10px;font-size:18px;background:var(--bg);border:1px solid var(--border)">${acc.icon}</div>
+          <div class="setting-info"><div class="setting-name">${acc.name}</div>
+            ${acc.creditLimit>0?`<div class="setting-sub">額度 $${fmt(acc.creditLimit)}</div>`:''}</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:19px;font-weight:800;color:${balColor}">${balText}</span>
+            <div style="display:flex;gap:4px">
+              <button class="icon-btn edit" data-a="editAcc" data-v="${acc.id}">···</button>
+              <button class="icon-btn del" data-a="delAcc" data-v="${acc.id}">🗑️</button>
+            </div>
+          </div>
+        </div>`;}).join('');
+      return`<div style="font-size:17px;font-weight:900;color:var(--text);padding:0 2px;margin-bottom:6px;margin-top:4px">${tp.name}</div>
+      <div class="card" style="margin-bottom:16px">${rows}</div>`;
+    }).join('');
+    const uncategorized=state.accounts.filter(a=>!types.find(tp=>tp.id===a.type));
+    const uncatRows=uncategorized.map(acc=>{
+      const bal=accBalance(acc.id);const isCredit=acc.type==='credit';
+      const balColor=hide?'var(--text2)':(bal>=0?'var(--income)':'var(--expense)');
+      const balText=hide?'* * * *':`$${fmt(bal)}`;
+      return`<div class="setting-row" style="padding:8px 0">
+        <div class="setting-ico" style="width:36px;height:36px;border-radius:10px;font-size:18px;background:var(--bg);border:1px solid var(--border)">${acc.icon}</div>
+        <div class="setting-info"><div class="setting-name">${acc.name}</div></div>
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:17px;font-weight:800;color:${balColor}">${balText}</span>
+          <span style="font-size:19px;font-weight:800;color:${balColor}">${balText}</span>
           <div style="display:flex;gap:4px">
-            <button class="icon-btn edit" data-a="editAcc" data-v="${acc.id}">✏️</button>
+            <button class="icon-btn edit" data-a="editAcc" data-v="${acc.id}">···</button>
             <button class="icon-btn del" data-a="delAcc" data-v="${acc.id}">🗑️</button>
           </div>
         </div>
       </div>`;}).join('');
-    content=`<div class="card">${rows}<button class="add-fab" data-a="newAcc">＋ 新增帳戶</button></div>`;
+    content=`${typeGroups}${uncatRows?`<div class="card" style="margin-bottom:12px">${uncatRows}</div>`:''}
+    <button class="add-fab" data-a="newAcc" style="margin-top:4px">＋ 新增帳戶</button>`;
   } else if(tab==='loans'){
     const totalDebt=state.loans.reduce((s,l)=>s+(l.remainingAmount||0),0);
     const totalMonthly=state.loans.reduce((s,l)=>s+(l.monthlyPayment||0),0);
-    const rows=state.loans.map(l=>`<div class="setting-row">
-      <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border)">${l.icon}</div>
-      <div class="setting-info"><div class="setting-name">${l.name}</div>
-        <div class="setting-sub">每月 $${fmt(l.monthlyPayment)} · 利率 ${l.rate}%${l.years?` · ${l.years}年`:''}</div></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:15px;font-weight:800;color:var(--expense)">$${fmt(l.remainingAmount)}</span>
-        <div style="display:flex;gap:4px">
-          <button class="icon-btn edit" data-a="editLoan" data-v="${l.id}">✏️</button>
-          <button class="icon-btn del" data-a="delLoan" data-v="${l.id}">🗑️</button>
+    const loanCards=state.loans.map(l=>`<div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border)">${l.icon}</div>
+        <div class="setting-info"><div class="setting-name">${l.name}</div>
+          <div class="setting-sub">每月 $${fmt(l.monthlyPayment)} · 利率 ${l.rate}%${l.years?` · ${l.years}年`:''}</div></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <span style="font-size:18px;font-weight:800;color:var(--expense)">$${fmt(l.remainingAmount)}</span>
+          <div style="display:flex;gap:4px">
+            <button class="icon-btn edit" data-a="editLoan" data-v="${l.id}">···</button>
+            <button class="icon-btn del" data-a="delLoan" data-v="${l.id}">🗑️</button>
+          </div>
         </div>
-      </div></div>`).join('');
+      </div>
+    </div>`).join('');
     content=`${totalDebt>0?`<div class="card" style="background:linear-gradient(135deg,#FBF4F3,#F5ECEA);border-color:#E0CECC;margin-bottom:12px;display:flex;gap:24px">
       <div><div style="font-size:11px;color:var(--text2);font-weight:700">總負債</div><div style="font-size:22px;font-weight:800;color:var(--expense)">$${fmt(totalDebt)}</div></div>
       <div><div style="font-size:11px;color:var(--text2);font-weight:700">每月還款</div><div style="font-size:22px;font-weight:800">$${fmt(totalMonthly)}</div></div>
     </div>`:''}
-    <div class="card">${rows||`<div class="empty" style="padding:24px 0"><div class="ei" style="font-size:36px">🏦</div><p>尚無貸款記錄</p></div>`}
-      <button class="add-fab" data-a="newLoan">＋ 新增貸款</button></div>`;
+    ${loanCards||`<div class="empty" style="padding:40px 20px"><div class="ei" style="font-size:36px">🏦</div><p>尚無貸款記錄</p></div>`}
+    <button class="add-fab" data-a="newLoan" style="margin-top:4px">＋ 新增貸款</button>`;
   }
   return`<div class="hdr"><div class="hdr-in">
     <h1>資產總覽</h1>
@@ -1622,7 +1777,7 @@ function renderAssetsView(){
       <div style="font-size:13px;opacity:.85">家庭淨資產</div>
       <div style="display:flex;align-items:center;gap:8px">
         <div style="font-size:30px;font-weight:800">${hide?'* * * *':'$'+fmt(Math.abs(netWorth))}</div>
-        <button class="cal-nb" data-a="toggleHideBal" style="font-size:18px">${hide?'🙈':'👁'}</button>
+        <button class="eye-btn${hide?' off':''}" data-a="toggleHideBal">👁</button>
       </div>
       ${!hide?`<div style="font-size:12px;opacity:.8;margin-top:2px">資產 $${fmt(totalAssets)} · 負債 $${fmt(ccDebt+loanDebt)}</div>`:''}
     </div>
@@ -1722,7 +1877,7 @@ function renderDayModal(date){
       <div class="tx-right">
         <div class="tx-amt ${t.type}">$${fmt(t.amount)}</div>
         <div class="tx-actions">
-          <button class="icon-btn edit" data-a="openEditTx" data-v="${t.id}">✏️</button>
+          <button class="icon-btn edit" data-a="openEditTx" data-v="${t.id}">···</button>
           <button class="icon-btn del" data-a="del" data-id="${t.id}">🗑️</button>
         </div>
       </div>
@@ -1809,7 +1964,7 @@ function renderStatsView(){
       const cls=pct===null?'ok':pct<70?'ok':pct<100?'warn':'over';
       return`<div class="bar-wrap">
         <div class="bar-lbl"><span>${cat.icon} ${cat.name}</span><span style="font-weight:800">$${fmt(amt)}</span></div>
-        <div class="bar-bg"><div class="bar-fill ${cls}" style="width:${Math.round((amt/(catArr[0][1]||1))*100)}%"></div></div>
+        <div class="bar-bg"><div class="bar-fill ${cls}" style="width:${budget>0?Math.min(pct,100):Math.round((amt/(catArr[0][1]||1))*100)}%"></div></div>
         ${budget>0?`<div class="budget-note">預算 $${fmt(budget)} · 已用 ${pct}%${pct>=100?' ⚠️':''}</div>`:''}
       </div>`;
     }).join('')}
@@ -1819,6 +1974,8 @@ function renderStatsView(){
   const now=new Date();ms.add(`${now.getFullYear()}-${now.getMonth()}`);
   Array.from(ms).sort().reverse().forEach(k=>{const[ky,km]=k.split('-').map(Number);allMonths.push({y:ky,m:km});});}
 
+  const PIE_COLORS=['#C8A5A3','#8090A8','#8DAD93','#C49830','#8B6CC8','#C45555'];
+  const secTitle=(t)=>`<div style="font-size:17px;font-weight:900;color:var(--text);padding:0 2px;margin-bottom:6px;margin-top:4px">${t}</div>`;
   return`<div class="hdr"><div class="hdr-in">
     <div class="hdr-row">
       <div style="display:flex;align-items:center;gap:8px">
@@ -1840,7 +1997,39 @@ function renderStatsView(){
   </div></div>
   <div class="content">
     ${txs.length===0?`<div class="empty" style="padding:60px 20px"><div class="ei">📊</div><p>本月還沒有記錄</p></div>`:`
-    ${catCard||''}
+    ${catArr.length>0?`
+    <div style="display:flex;gap:10px;margin-bottom:6px;margin-top:4px">
+      <div style="flex:1;font-size:17px;font-weight:900;color:var(--text)">支出分布</div>
+      <div style="flex:1;font-size:17px;font-weight:900;color:var(--text)">支出類別</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:stretch;margin-bottom:16px">
+      <div class="card" style="flex:1;min-width:0">
+        <canvas id="cat-pie" width="160" height="160" style="display:block;margin:0 auto 10px;width:160px;height:160px"></canvas>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 0;row-gap:6px">
+          ${catArr.map(([id,amt],i)=>{
+            const cat=getCat('expense',id);
+            const pct=Math.round((amt/sum.expense)*100);
+            return`<div style="display:flex;align-items:center;gap:4px;width:33%;justify-content:center">
+              <div style="width:8px;height:8px;border-radius:50%;background:${PIE_COLORS[i%6]};flex-shrink:0"></div>
+              <span style="font-size:12px;font-weight:600;white-space:nowrap">${cat.icon} ${cat.name} <b>${pct}%</b></span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div class="card" style="flex:1;min-width:0">
+        ${catArr.map(([id,amt])=>{
+          const cat=getCat('expense',id);const budget=cat.budget||0;
+          const pct=budget>0?Math.min(Math.round((amt/budget)*100),150):null;
+          const cls=pct===null?'ok':pct<70?'ok':pct<100?'warn':'over';
+          return`<div class="bar-wrap">
+            <div class="bar-lbl"><span>${cat.icon} ${cat.name}</span><span style="font-weight:800">$${fmt(amt)}</span></div>
+            <div class="bar-bg"><div class="bar-fill ${cls}" style="width:${budget>0?Math.min(pct,100):Math.round((amt/(catArr[0][1]||1))*100)}%"></div></div>
+            ${budget>0?`<div class="budget-note">預算 $${fmt(budget)} · 已用 ${pct}%${pct>=100?' ⚠️':''}</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`:''}
+    ${secTitle('月底總結')}
     ${renderSumContent({y,m})}`}
   </div>`;
 }
@@ -1865,8 +2054,7 @@ function renderSumContent({y,m}){
     }
     if(top){const cat=getCat('expense',top[0]);insights.push(`最大支出是「${cat.name}」，共 $${fmt(top[1])}，佔總支出 ${Math.round((top[1]/(sum.expense||1))*100)}%。`);}
   }
-  return`<div class="card" style="margin-top:12px">
-    <div class="card-title">月底總結</div>
+  return`<div class="card" style="margin-top:0">
     <div class="sum-grid">
       <div class="sum-metric"><div class="ml">總收入</div><div class="mv i">$${fmt(sum.income)}</div></div>
       <div class="sum-metric"><div class="ml">總支出</div><div class="mv e">$${fmt(sum.expense)}</div></div>
@@ -1985,10 +2173,10 @@ function renderSettingsView(){
       <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border)">${cat.icon}</div>
       <div class="setting-info">
         <div class="setting-name">${cat.name}${cat.subcats?.length>0?` <span style="font-size:12px;color:var(--text2)">(${cat.subcats.length}子類)</span>`:''}</div>
-        <div class="setting-sub">${cat.budget>0?`月預算 $${fmt(cat.budget)}`:'不設預算'}</div>
+        <div class="setting-sub">${cat.budget>0?`${state.budgetMode==='week'?'週':'月'}預算 $${fmt(cat.budget)}`:'不設預算'}</div>
       </div>
       <div class="setting-actions">
-        <button class="icon-btn edit" data-a="editCat" data-v="${showType}:${cat.id}">✏️</button>
+        <button class="icon-btn edit" data-a="editCat" data-v="${showType}:${cat.id}">···</button>
         <button class="icon-btn del" data-a="delCat" data-v="${showType}:${cat.id}">🗑️</button>
       </div>
     </div>`).join('');
@@ -1999,9 +2187,15 @@ function renderSettingsView(){
       </div>
     </div></div>
     <div class="content">
-      <div class="stabs" style="margin-bottom:12px">
-        <button class="stab${showType==='expense'?' active':''}" data-a="setCatType" data-v="expense">支出類別</button>
-        <button class="stab${showType==='income'?' active':''}" data-a="setCatType" data-v="income">收入類別</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div class="stabs" style="flex:1;margin-bottom:0">
+          <button class="stab${showType==='expense'?' active':''}" data-a="setCatType" data-v="expense">支出類別</button>
+          <button class="stab${showType==='income'?' active':''}" data-a="setCatType" data-v="income">收入類別</button>
+        </div>
+        ${showType==='expense'?`<div style="display:flex;gap:4px;flex-shrink:0">
+          <button class="stab${(state.budgetMode||'month')==='month'?' active':''}" style="padding:6px 12px;font-size:13px" data-a="setBudgetMode" data-v="month">月</button>
+          <button class="stab${(state.budgetMode||'month')==='week'?' active':''}" style="padding:6px 12px;font-size:13px" data-a="setBudgetMode" data-v="week">週</button>
+        </div>`:''}
       </div>
       <div class="card">${rows}
         <button class="add-fab" data-a="newCat" data-v="${showType}">＋ 新增類別</button>
@@ -2023,7 +2217,7 @@ function renderSettingsView(){
           <div class="setting-sub">${freqLabel[f.frequency]||'每月'} · $${fmt(f.amount)}${f.nextDate?' · 下次 '+f.nextDate.slice(5):''}${f.accountId&&acc.name?' · '+acc.icon+acc.name:''}</div></div>
         <div style="display:flex;align-items:center;gap:6px">
           <button class="sw ${f.active===false?'off':'on'}" data-a="toggleFixed" data-v="${f.id}"></button>
-          <button class="icon-btn edit" data-a="editFixed" data-v="${f.id}">✏️</button>
+          <button class="icon-btn edit" data-a="editFixed" data-v="${f.id}">···</button>
           <button class="icon-btn del" data-a="delFixed" data-v="${f.id}">🗑️</button>
         </div>
       </div>`;}).join('');
@@ -2041,10 +2235,11 @@ function renderSettingsView(){
     </div></div>`;
   }
 
-  if(state.settingsTab==='shared')return renderSharedView();
   if(state.settingsTab==='books')return renderBooksView();
+  if(state.settingsTab==='acctypes')return renderAccTypesView();
+  if(state.settingsTab==='theme')return renderThemeView();
 
-  const sectionLabels={currency:'幣別管理',export:'匯出資料',password:'密碼鎖定',reset:'重設記帳',language:'語言設定',guide:'使用說明',theme:'主題風格'};
+  const sectionLabels={currency:'幣別管理',export:'匯出資料',password:'密碼鎖定',reset:'重設記帳',language:'語言設定',guide:'使用說明'};
   if(sectionLabels[state.settingsTab]){
     return`<div class="hdr"><div class="hdr-in">
       <div class="hdr-row">
@@ -2061,17 +2256,17 @@ function renderSettingsView(){
 
   // Main menu
   const menuItems=[
-    {id:'books',ico:'📚',name:'帳本管理',sub:`${(state.books||[]).filter(b=>!b.isArchived).length} 個帳本・點此新增或管理`},
-    {id:'shared',ico:'👥',name:'共同帳本',sub:state.sharedRoom?`✓ 已連線・房間碼 ${state.sharedRoom}`:'點此開始共同記帳'},
-    {id:'categories',ico:'🏷️',name:'類別管理',sub:'支出 / 收入類別'},
-    {id:'fixed',ico:'📋',name:'固定費用',sub:'月費、訂閱、房租'},
-    {id:'currency',ico:'💱',name:'幣別管理',sub:'台幣 TWD'},
-    {id:'export',ico:'📤',name:'匯出資料',sub:'CSV / JSON'},
-    {id:'password',ico:'🔒',name:'密碼鎖定',sub:'未設定'},
-    {id:'reset',ico:'🗑️',name:'重設記帳',sub:'清除所有資料'},
-    {id:'language',ico:'🌐',name:'語言設定',sub:'繁體中文'},
-    {id:'guide',ico:'📖',name:'使用說明',sub:'功能介紹'},
-    {id:'theme',ico:'🎨',name:'主題風格',sub:'暖橘色'},
+    {id:'books',ico:'📚',name:'帳本管理'},
+    {id:'acctypes',ico:'🏷️',name:'帳戶類型'},
+    {id:'categories',ico:'📂',name:'類別管理'},
+    {id:'fixed',ico:'📋',name:'固定費用'},
+    {id:'currency',ico:'💱',name:'幣別管理'},
+    {id:'export',ico:'📤',name:'匯出資料'},
+    {id:'password',ico:'🔒',name:'密碼鎖定'},
+    {id:'reset',ico:'🗑️',name:'重設記帳'},
+    {id:'language',ico:'🌐',name:'語言設定'},
+    {id:'guide',ico:'📖',name:'使用說明'},
+    {id:'theme',ico:'🎨',name:'外觀設定'},
   ];
   return`<div class="hdr"><div class="hdr-in">
     <h1>設定</h1>
@@ -2081,18 +2276,64 @@ function renderSettingsView(){
       <div class="nick-avatar">🐱</div>
       <div style="flex:1;display:flex;align-items:center;gap:10px">
         <span style="font-size:16px;font-weight:700">${nick||'使用者暱稱'}</span>
-        <button class="icon-btn edit" data-a="openNickModal" style="background:transparent;border:none;flex-shrink:0;color:rgba(255,255,255,.85)">✏️</button>
+        <button class="icon-btn edit" data-a="openNickModal" style="background:transparent;border:none;flex-shrink:0;color:rgba(255,255,255,.85)">···</button>
       </div>
     </div>
     <div class="card">${menuItems.map(item=>`
-    <div class="setting-row" style="cursor:pointer" data-a="stab" data-v="${item.id}">
-      <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border)">${item.ico}</div>
+    <div class="setting-row" style="cursor:pointer;padding:9px 0" data-a="stab" data-v="${item.id}">
+      <div class="setting-ico" style="width:38px;height:38px;border-radius:11px;background:var(--bg);border:1px solid var(--border)">${item.ico}</div>
       <div class="setting-info">
         <div class="setting-name">${item.name}</div>
-        <div class="setting-sub">${item.sub}</div>
       </div>
       <span style="color:var(--text2);font-size:20px;padding-right:2px">›</span>
     </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ── RENDER: THEME ──────────────────────────────────────────────────────────
+function renderThemeView(){
+  const cur=state.theme||'pink';
+  const curF=state.fontStyle||'huninn';
+  const themeCards=Object.entries(THEMES).map(([id,t])=>{
+    const sel=cur===id;
+    return`<div data-a="setTheme" data-v="${id}" style="cursor:pointer;border-radius:14px;border:2.5px solid ${sel?'var(--text)':'var(--border)'};overflow:hidden;transition:all .2s${sel?';box-shadow:0 3px 14px var(--shadow)':''}">
+      <div style="height:38px;background:${t.vars['--hdr-grad']}"></div>
+      <div style="padding:10px 12px;background:${sel?'var(--surface)':'var(--bg)'}">
+        <div style="display:flex;gap:5px;margin-bottom:7px">
+          ${t.swatches.map(c=>`<div style="width:13px;height:13px;border-radius:50%;background:${c}"></div>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:14px;font-weight:700;color:var(--text)">${t.name}</span>
+          ${sel?`<span style="font-size:12px;font-weight:700;color:var(--text2)">✓ 使用中</span>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const fontCards=Object.entries(FONTS).map(([id,f])=>{
+    const sel=curF===id;
+    return`<div data-a="setFont" data-v="${id}" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2.5px solid ${sel?'var(--text)':'var(--border)'};background:${sel?'var(--surface)':'var(--bg)'};transition:all .2s;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:17px;font-weight:700;color:var(--text);font-family:${f.family}">${f.name}</div>
+        <div style="font-size:13px;color:var(--text2);font-family:${f.family};margin-top:4px">記帳本・支出・收入 Aa 123</div>
+      </div>
+      <div style="font-size:22px;color:${sel?'var(--text)':'var(--border)'};flex-shrink:0;margin-left:10px">${sel?'✓':'○'}</div>
+    </div>`;
+  }).join('');
+  return`<div class="hdr"><div class="hdr-in">
+    <div class="hdr-row">
+      <div><h1>外觀設定</h1></div>
+      <button class="cal-nb" data-a="stab" data-v="main">←</button>
+    </div>
+  </div></div>
+  <div class="content">
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title" style="margin-bottom:14px">主題色調</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${themeCards}</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px">字型</div>
+      ${fontCards}
     </div>
   </div>`;
 }
@@ -2102,22 +2343,31 @@ function renderBooksView(){
   const books=state.books||[];
   const active=books.filter(b=>!b.isArchived);
   const archived=books.filter(b=>b.isArchived);
-  function bookRow(b){
+  const curTab=state.booksTab||'active';
+  function bookCard(b){
     const typeLbl=b.type==='shared'?'共同':'個人';
     const typeClass=b.type==='shared'?'shared':'personal';
-    return`<div class="setting-row">
-      <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border);font-size:24px">${b.icon}</div>
-      <div class="setting-info">
-        <div class="setting-name">${b.name}${b.isDefault?'<span class="book-badge personal">預設</span>':''}<span class="book-badge ${typeClass}">${typeLbl}</span></div>
-        <div class="setting-sub">${b.currency||'TWD'}${b.isArchived?' · 已封存':''}</div>
-      </div>
-      <div class="setting-actions">
-        <button class="icon-btn edit" data-a="editBook" data-v="${b.id}">✏️</button>
-        ${!b.isArchived?`<button class="icon-btn" data-a="archiveBook" data-v="${b.id}" title="封存">📦</button>`:`<button class="icon-btn" data-a="unarchiveBook" data-v="${b.id}" title="取消封存">📂</button>`}
-        ${!b.isDefault?`<button class="icon-btn del" data-a="delBook" data-v="${b.id}">🗑️</button>`:''}
+    const dateStr=b.createdAt?(()=>{const d=new Date(b.createdAt+'T00:00:00');return`建立於 ${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;})():'';
+    const syncStatus=b.roomCode?`<span style="font-size:11px;color:#4A78C4;font-weight:700;margin-left:4px"><span class="sync-dot" style="background:#4A78C4"></span>已連線</span>`:'';
+    return`<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-size:32px;background:var(--bg);border:1px solid var(--border);border-radius:12px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${b.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span style="font-size:16px;font-weight:700">${b.name}</span>
+            ${b.isDefault?'<span class="book-badge personal">預設</span>':''}
+            <span class="book-badge ${typeClass}">${typeLbl}</span>
+            ${syncStatus}
+          </div>
+          <div style="font-size:12px;color:var(--text2);margin-top:3px">${b.currency||'TWD'}${dateStr?' · '+dateStr:''}</div>
+        </div>
+        <div style="flex-shrink:0">
+          <button class="icon-btn" data-a="openBookMenu" data-v="${b.id}" style="background:var(--bg);border:1.5px solid var(--border);font-size:16px;font-weight:900;letter-spacing:1px;color:var(--text2)">···</button>
+        </div>
       </div>
     </div>`;
   }
+  const list=curTab==='active'?active:archived;
   return`<div class="hdr"><div class="hdr-in">
     <div class="hdr-row">
       <div><h1>帳本管理</h1></div>
@@ -2125,14 +2375,63 @@ function renderBooksView(){
     </div>
   </div></div>
   <div class="content">
-    <div class="card">${active.map(bookRow).join('')}
-      <button class="add-fab" data-a="newBook">＋ 新增帳本</button>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div class="stabs" style="flex:1;margin-bottom:0">
+        <button class="stab${curTab==='active'?' active':''}" data-a="booksTab" data-v="active">使用中 (${active.length})</button>
+        <button class="stab${curTab==='archived'?' active':''}" data-a="booksTab" data-v="archived">封存 (${archived.length})</button>
+      </div>
+      <button class="icon-btn" data-a="newBook" style="background:var(--p);color:white;font-size:22px;width:38px;height:38px;flex-shrink:0;border-radius:10px">＋</button>
     </div>
-    ${archived.length>0?`<div class="book-archived-section">
-      <div class="book-archived-label">封存的帳本</div>
-      <div class="card">${archived.map(bookRow).join('')}</div>
-    </div>`:''}
+    ${list.length>0?list.map(bookCard).join(''):
+      `<div class="empty" style="padding:40px 20px"><div class="ei" style="font-size:40px">${curTab==='active'?'📒':'📦'}</div><p>${curTab==='active'?'尚無使用中的帳本':'沒有封存的帳本'}</p></div>`
+    }
+    ${curTab==='active'?`<button class="add-fab" data-a="openJoinRoom" style="margin-top:6px">📥 輸入房間碼加入共同帳本</button>`:''}
   </div>`;
+}
+// ── RENDER: ACC TYPES ──────────────────────────────────────────────────────
+function renderAccTypesView(){
+  const types=state.accTypes||DEFAULT_ACC_TYPES;
+  const rows=types.map((tp,i)=>`<div class="setting-row">
+    <div class="setting-ico" style="background:var(--bg);border:1px solid var(--border);font-size:22px">${tp.icon}</div>
+    <div class="setting-info"><div class="setting-name">${tp.name}</div></div>
+    <div class="setting-actions">
+      <button class="icon-btn edit" data-a="editAccType" data-v="${i}">···</button>
+      <button class="icon-btn del" data-a="delAccType" data-v="${i}">🗑️</button>
+    </div>
+  </div>`).join('');
+  return`<div class="hdr"><div class="hdr-in">
+    <div class="hdr-row">
+      <div><h1>帳戶類型</h1></div>
+      <button class="cal-nb" data-a="stab" data-v="main">←</button>
+    </div>
+  </div></div>
+  <div class="content"><div class="card">
+    ${rows}
+    <button class="add-fab" data-a="newAccType">＋ 新增帳戶類型</button>
+  </div></div>`;
+}
+function renderEditAccTypeModal(){
+  const f=state.editForm;
+  return`<div class="overlay" id="modal-overlay"><div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">${f._isNew?'新增帳戶類型':'編輯帳戶類型'}</div>
+    <div class="form-row" style="margin-bottom:14px">
+      <div class="form-field" style="max-width:76px"><label>圖示</label>
+        <button class="icon-field" id="emoji-field-btn" data-a="toggleEmojiPicker" data-field="icon">${f.icon||'💰'}</button>
+        <input id="ef-icon" type="hidden" value="${f.icon||''}">
+      </div>
+      <div class="form-field"><label>類型名稱</label>
+        <input class="form-input" id="at-name" type="text" placeholder="例：儲值帳戶" value="${f.name||''}">
+      </div>
+    </div>
+    <div id="emoji-picker-grid" class="emoji-grid" style="display:none;margin-bottom:14px">
+      ${EMOJI_QUICK.map(e=>`<button class="emoji-btn${(f.icon||'')===e?' active':''}" data-a="pickEmoji" data-v="${e}">${e}</button>`).join('')}
+    </div>
+    <div class="modal-btns">
+      <button class="save-btn" data-a="saveAccType">儲存</button>
+      <button class="outline-btn" data-a="closeModal">取消</button>
+    </div>
+  </div></div>`;
 }
 function renderBookPickerModal(){
   const books=(state.books||[]).filter(b=>!b.isArchived);
@@ -2160,19 +2459,54 @@ function renderBookPickerModal(){
     </div>
     ${cur===b.id?'<span style="color:var(--p);font-size:20px">✓</span>':''}
   </div>`).join('');
+  const joinSection=`<div id="join-room-section" style="display:none;margin-top:8px;padding:14px;background:var(--surface);border-radius:12px;border:1.5px solid var(--border)">
+    <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px">輸入對方給你的 6 位房間碼</div>
+    <input class="room-input" id="picker-join-code" maxlength="6" placeholder="房間碼" style="font-size:20px;padding:10px;margin-bottom:8px">
+    <button class="save-btn green" data-a="joinRoomFromPicker">加入</button>
+  </div>`;
   return`<div class="overlay" id="modal-overlay"><div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">選擇帳本</div>
-    <div class="book-picker-list">${allItem}${bookItems}</div>
-    <button class="outline-btn" data-a="closeModal">取消</button>
+    <div class="book-picker-list">${allItem}${bookItems}
+      <div class="book-picker-item" data-a="toggleJoinSection" style="border-style:dashed;background:transparent">
+        <div class="book-picker-icon">📥</div>
+        <div class="book-picker-info">
+          <div class="book-picker-name">加入共同帳本</div>
+          <div class="book-picker-sub">輸入房間碼加入對方的共同帳本</div>
+        </div>
+      </div>
+      ${joinSection}
+    </div>
+    <button class="outline-btn" style="width:100%" data-a="closeModal">取消</button>
   </div></div>`;
 }
 function renderEditBookModal(){
   const f=state.editForm;
   const BOOK_ICONS=['📒','📓','📔','📕','📗','📘','📙','💼','🏠','✈️','🍱','💑','🎯','💰','🏋️'];
+  const curType=f.type||'personal';
+  const isExistingShared=f.id&&curType==='shared';
+  let roomSection='';
+  if(isExistingShared){
+    if(f.roomCode){
+      roomSection=`<div style="background:linear-gradient(135deg,#4A78C4,#5A9068);border-radius:14px;padding:16px;color:white;margin-bottom:14px">
+        <div style="font-size:12px;opacity:.85;margin-bottom:4px">房間碼（傳給對方一起記帳）</div>
+        <div class="room-code" style="font-size:28px;letter-spacing:5px;text-align:center;margin:8px 0;font-weight:800">${f.roomCode}</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="save-btn" style="flex:1;padding:10px;background:rgba(255,255,255,.22);box-shadow:none" data-a="copyBookRoomCode">複製</button>
+          <button class="outline-btn" style="flex:1;padding:10px;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);background:transparent" data-a="leaveBookRoom" data-v="${f.id}">退出房間</button>
+        </div>
+      </div>`;
+    }else{
+      roomSection=`<div style="margin-bottom:14px">
+        <div class="slabel">房間碼</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.6">建立後可把 6 位房間碼傳給對方，對方輸入後即可一起記帳，資料即時同步。</p>
+        <button class="save-btn green" data-a="createBookRoom" data-v="${f.id}">建立房間碼</button>
+      </div>`;
+    }
+  }
   return`<div class="overlay" id="modal-overlay"><div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">${f.id?'編輯帳本':'新增帳本'}</div>
+    <div class="modal-title">${f.id?'帳本設定':'新增帳本'}</div>
     <div class="form-field" style="margin-bottom:14px"><label>帳本名稱</label>
       <input class="form-input" id="bk-name" type="text" placeholder="例：家用帳本" value="${f.name||''}"></div>
     <div class="slabel">圖示</div>
@@ -2181,8 +2515,8 @@ function renderEditBookModal(){
     ).join('')}</div>
     <div class="slabel">帳本類型</div>
     <div class="type-chips" style="margin-bottom:14px">
-      <button class="type-chip${(f.type||'personal')==='personal'?' active':''}" data-a="setBookType" data-v="personal">👤 個人帳本</button>
-      <button class="type-chip${(f.type||'personal')==='shared'?' active':''}" data-a="setBookType" data-v="shared">👥 共同帳本</button>
+      <button class="type-chip${curType==='personal'?' active':''}" data-a="setBookType" data-v="personal">👤 個人帳本</button>
+      <button class="type-chip${curType==='shared'?' active':''}" data-a="setBookType" data-v="shared">👥 共同帳本</button>
     </div>
     <div class="slabel">幣別</div>
     <div class="acc-row" style="margin-bottom:14px">
@@ -2190,11 +2524,45 @@ function renderEditBookModal(){
         `<button class="acc-pill${(f.currency||'TWD')===c?' active':''}" style="--acc-c:var(--latte)" data-a="setBookCurrency" data-v="${c}">${c}</button>`
       ).join('')}
     </div>
-    <button class="save-btn" data-a="saveBook">儲存</button>
-    <button class="outline-btn" style="margin-top:8px" data-a="closeModal">取消</button>
+    ${roomSection}
+    <button class="save-btn" data-a="saveBook" style="margin-bottom:8px">儲存</button>
+    ${f.id&&!f.isDefault?`<div style="display:flex;gap:8px;margin-bottom:8px">
+      ${!f.isArchived
+        ?`<button class="outline-btn" style="flex:1;color:#B89360;border-color:#B89360" data-a="archiveBook" data-v="${f.id}">封存帳本</button>`
+        :`<button class="outline-btn" style="flex:1;color:var(--income);border-color:var(--income)" data-a="unarchiveBook" data-v="${f.id}">取消封存</button>`
+      }
+      <button class="outline-btn" style="flex:1;color:var(--expense);border-color:var(--expense)" data-a="delBook" data-v="${f.id}">刪除帳本</button>
+    </div>`:''}
+    <button class="outline-btn" style="width:100%" data-a="closeModal">取消</button>
   </div></div>`;
 }
 
+function renderBookMenuModal(){
+  const bk=(state.books||[]).find(b=>b.id===state.modal?.bookId);
+  if(!bk)return'';
+  const isArchived=bk.isArchived;
+  return`<div class="overlay" id="modal-overlay"><div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">${bk.icon} ${bk.name}</div>
+    <button class="save-btn latte" style="margin-bottom:8px" data-a="editBook" data-v="${bk.id}">帳本設定</button>
+    ${!isArchived
+      ?`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#B89360,#C9A87C)" data-a="archiveBook" data-v="${bk.id}">封存帳本</button>`
+      :`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#5A9068,#7AB888)" data-a="unarchiveBook" data-v="${bk.id}">取消封存</button>`
+    }
+    ${!bk.isDefault?`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#C45555,#D46868)" data-a="delBook" data-v="${bk.id}">刪除帳本</button>`:''}
+    <button class="outline-btn" style="width:100%;margin-top:4px" data-a="closeModal">取消</button>
+  </div></div>`;
+}
+function renderJoinRoomModal(){
+  return`<div class="overlay" id="modal-overlay"><div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">加入共同帳本</div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:14px;line-height:1.6">輸入對方給你的 6 位房間碼，加入後只會顯示該共同帳本的記錄，你的其他帳本不受影響。</p>
+    <input class="room-input" id="join-code-input" maxlength="6" placeholder="輸入房間碼" style="margin-bottom:14px">
+    <button class="save-btn green" data-a="joinRoom">加入</button>
+    <button class="outline-btn" style="margin-top:8px;width:100%" data-a="closeModal">取消</button>
+  </div></div>`;
+}
 // ── RENDER: SETTINGS MODALS ────────────────────────────────────────────────
 function renderEditAccModal(){
   const f=state.editForm;
@@ -2205,7 +2573,7 @@ function renderEditAccModal(){
       <input class="form-input" id="ef-name" type="text" placeholder="例：台新銀行" value="${f.name||''}"></div>
     <div class="slabel">帳戶類型</div>
     <div class="type-chips" style="margin-bottom:14px">
-      ${ACC_TYPES.map(t=>`<button class="type-chip${(f.type||'bank')===t.id?' active':''}" data-a="efAccType" data-v="${t.id}">${t.icon} ${t.name}</button>`).join('')}
+      ${(state.accTypes||DEFAULT_ACC_TYPES).map(t=>`<button class="type-chip${(f.type||'bank')===t.id?' active':''}" data-a="efAccType" data-v="${t.id}">${t.icon} ${t.name}</button>`).join('')}
     </div>
     <div class="form-row">
       <div class="form-field" style="max-width:80px"><label>圖示</label>
@@ -2253,7 +2621,7 @@ function renderEditCatModal(){
     return`<div class="subcat-row-item">
       <span style="font-size:18px">${s.icon||'🏷️'}</span>
       <span class="sn">${s.name}</span>
-      <button class="icon-btn edit" style="width:28px;height:28px;font-size:14px" data-a="startEditSub" data-v="${i}">✏️</button>
+      <button class="icon-btn edit" style="width:28px;height:28px;font-size:14px" data-a="startEditSub" data-v="${i}">···</button>
       <button class="icon-btn del" style="width:28px;height:28px;font-size:14px" data-a="delSub" data-v="${i}">🗑️</button>
     </div>`;
   }).join('');
@@ -2276,7 +2644,7 @@ function renderEditCatModal(){
       <button class="type-chip${(f.catType||'expense')==='income'?' active':''}" data-a="efCatType" data-v="income">收入</button>
     </div>`:''}
     ${(f.catType||'expense')==='expense'?`
-    <div class="form-field" style="margin-bottom:14px"><label>月預算 (0=不限制)</label>
+    <div class="form-field" style="margin-bottom:14px"><label>${state.budgetMode==='week'?'週':'月'}預算 (0=不限制)</label>
       <input class="form-input" id="ef-budget" type="number" inputmode="decimal" placeholder="0" value="${f.budget||''}"></div>`:''}
     <div class="slabel">子類別</div>
     <div class="subcat-list">${subcatRows||'<div style="font-size:13px;color:var(--text2);padding:6px 0">尚無子類別</div>'}</div>
@@ -2549,7 +2917,7 @@ function renderInsCardSm(ins){
       <div style="font-size:17px;font-weight:800;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${ins.name||'未命名'}</div>
       <div style="display:flex;gap:4px;flex-shrink:0">
         <button class="ins-detail-btn" style="color:var(--expense);border-color:var(--expense)" data-a="delIns" data-v="${ins.id}">🗑️</button>
-        <button class="ins-detail-btn" data-a="editIns" data-v="${ins.id}">✏️ 詳細</button>
+        <button class="ins-detail-btn" data-a="editIns" data-v="${ins.id}">··· 詳細</button>
       </div>
     </div>
     ${ins.premium?`<div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px">$${fmt(ins.premium)}<span style="font-size:13px;color:var(--text2)">/${freqLabel}</span></div>`:''}
@@ -2602,7 +2970,7 @@ function renderInsView(){
   ];
   const personChips=`<div class="chips" style="margin-bottom:6px">
     <button class="chip${state.insPersonFilter==='all'?' ac':''}" data-a="insPersonFilt" data-v="all">👨‍👩‍👧 全家</button>
-    ${allMembers.map(m=>`<button class="chip${state.insPersonFilter===m.name?' ac':''}" data-a="insPersonFilt" data-v="${m.name}">${m.icon} ${m.name}${m.id?`<span data-a="editMember" data-v="${m.id}" style="margin-left:4px;opacity:.6;font-size:10px"> ✏️</span>`:`<span data-a="addDetectedMember" data-v="${m.name}" style="margin-left:4px;opacity:.6;font-size:10px"> ✏️</span>`}</button>`).join('')}
+    ${allMembers.map(m=>`<button class="chip${state.insPersonFilter===m.name?' ac':''}" data-a="insPersonFilt" data-v="${m.name}">${m.icon} ${m.name}${m.id?`<span data-a="editMember" data-v="${m.id}" style="margin-left:4px;opacity:.6;font-size:10px"> ···</span>`:`<span data-a="addDetectedMember" data-v="${m.name}" style="margin-left:4px;opacity:.6;font-size:10px"> ···</span>`}</button>`).join('')}
     <button class="chip" data-a="newMember" style="border-style:dashed;color:var(--text2)">＋ 新增</button>
   </div>`;;
   const chips=`<div class="chips">${['all',...INS_TYPES].map(t=>
@@ -2784,7 +3152,7 @@ function txItem(t,showDel,showSign=true){
     <div class="tx-right">
       <div class="tx-amt ${t.type}">${showSign?(t.type==='income'?'+':'-'):''}$${fmt(t.amount)}</div>
       ${showDel?`<div class="tx-actions">
-        <button class="icon-btn edit" data-a="openEditTx" data-v="${t.id}">✏️</button>
+        <button class="icon-btn edit" data-a="openEditTx" data-v="${t.id}">···</button>
         <button class="del-btn" data-a="del" data-id="${t.id}">刪除</button>
       </div>`:''}
     </div>
@@ -2918,7 +3286,7 @@ function bindOverlay(){
 
 document.addEventListener('click',e=>{
   const navEl=e.target.closest('[data-nav]');
-  if(navEl){state.view=navEl.dataset.nav;state.modal=null;renderApp();return;}
+  if(navEl){const nv=navEl.dataset.nav;if(nv==='settings')state.settingsTab='main';state.view=nv;state.modal=null;renderApp();return;}
   const el=e.target.closest('[data-a]');if(!el)return;
   const a=el.dataset.a,v=el.dataset.v;
   switch(a){
@@ -3025,7 +3393,7 @@ document.addEventListener('click',e=>{
         const newBook={
           id:'bk'+Date.now(),name:state.editForm.name,icon:state.editForm.icon||'📒',
           type:state.editForm.type||'personal',currency:state.editForm.currency||'TWD',
-          isDefault:false,isArchived:false
+          isDefault:false,isArchived:false,createdAt:todayStr()
         };
         state.books=[...(state.books||[]),newBook];
       }
@@ -3034,26 +3402,56 @@ document.addEventListener('click',e=>{
       const bk=(state.books||[]).find(b=>b.id===v);
       if(!bk||bk.isDefault){showToast('預設帳本無法刪除');break;}
       if(!confirm(`確定刪除「${bk.name}」？此帳本的記錄也會一併刪除。`))break;
+      if(bk.roomCode&&_roomListeners[bk.roomCode]){_roomListeners[bk.roomCode]();delete _roomListeners[bk.roomCode];}
       state.txs=state.txs.filter(t=>t.bookId!==v);
       state.books=(state.books||[]).filter(b=>b.id!==v);
       if(state.activeBook===v)state.activeBook='all';
-      saveAll();showToast('帳本已刪除');renderApp();break;}
+      saveAll();state.modal=null;showToast('帳本已刪除');renderApp();break;}
     case'archiveBook':{
       const idx=(state.books||[]).findIndex(b=>b.id===v);
       if(idx>=0){state.books[idx].isArchived=true;}
       if(state.activeBook===v)state.activeBook='all';
-      saveAll();showToast('帳本已封存');renderApp();break;}
+      saveAll();state.modal=null;showToast('帳本已封存');renderApp();break;}
     case'unarchiveBook':{
       const idx=(state.books||[]).findIndex(b=>b.id===v);
       if(idx>=0){state.books[idx].isArchived=false;}
-      saveAll();showToast('已取消封存');renderApp();break;}
+      saveAll();state.modal=null;showToast('已取消封存');renderApp();break;}
     case'pickBookIcon':state.editForm.icon=v;dmActive('[data-a="pickBookIcon"]',v);
       (()=>{const b=document.getElementById('bk-name');if(b)b.focus();})();break;
     case'setBookType':state.editForm.type=v;renderModalOnly();break;
     case'setBookCurrency':state.editForm.currency=v;dmActive('[data-a="setBookCurrency"]',v);break;
     case'setCatType':state.catTypeTab=v;renderApp();break;
+    case'booksTab':state.booksTab=v;renderApp();break;
+    case'homeBudgetPeriod':state.homeBudgetPeriod=v;renderApp();break;
+    case'setBudgetMode':state.budgetMode=v;state.homeBudgetPeriod=v;save('budget_mode',v);renderApp();break;
+    case'setTheme':state.theme=v;save('budget_theme',v);applyAppTheme();renderApp();break;
+    case'setFont':state.fontStyle=v;save('budget_font',v);applyAppTheme();renderApp();break;
+    case'newAccType':
+      state.editForm={icon:'💰',name:'',_isNew:true};
+      state.modal={type:'editAccType'};renderApp();break;
+    case'editAccType':{
+      const idx=parseInt(v);const types=state.accTypes||DEFAULT_ACC_TYPES;
+      if(types[idx])state.editForm={...types[idx],_idx:idx,_isNew:false};
+      state.modal={type:'editAccType'};renderApp();break;}
+    case'delAccType':{
+      const idx=parseInt(v);
+      if(!confirm('確定刪除這個帳戶類型？'))break;
+      state.accTypes=(state.accTypes||DEFAULT_ACC_TYPES).filter((_,i)=>i!==idx);
+      saveAll();renderApp();break;}
+    case'saveAccType':{
+      const nEl=document.getElementById('at-name');
+      const nm=nEl?nEl.value.trim():'';
+      if(!nm){showToast('請輸入類型名稱');break;}
+      const ic=state.editForm.icon||'💰';
+      if(state.editForm._isNew){
+        state.accTypes=[...(state.accTypes||DEFAULT_ACC_TYPES),{id:'at'+Date.now(),name:nm,icon:ic}];
+      }else{
+        const idx=state.editForm._idx;
+        state.accTypes=(state.accTypes||DEFAULT_ACC_TYPES).map((tp,i)=>i===idx?{...tp,name:nm,icon:ic}:tp);
+      }
+      saveAll();state.modal=null;showToast('帳戶類型已儲存 ✓');renderApp();break;}
     case'newAcc':
-      state.editForm={type:'bank',icon:'🏦',color:ACC_COLORS[1],init:0,name:''};
+      state.editForm={type:(state.accTypes||DEFAULT_ACC_TYPES)[0]?.id||'cash',icon:'🏦',color:ACC_COLORS[1],init:0,name:''};
       state.modal={type:'editAcc'};renderApp();break;
     case'editAcc':{
       const acc=state.accounts.find(a=>a.id===v);if(acc)state.editForm={...acc};
@@ -3219,10 +3617,22 @@ document.addEventListener('click',e=>{
         }).catch(()=>showToast('附件載入失敗'));
       }
       break;}
-    case'createRoom':createRoom();break;
-    case'joinRoom':{const el=document.getElementById('join-code-input');joinRoom(el?.value||'');break;}
-    case'leaveRoom':leaveRoom();break;
-    case'copyRoomCode':if(state.sharedRoom){navigator.clipboard?.writeText(state.sharedRoom).then(()=>showToast('已複製房間碼 ✓')).catch(()=>{showToast('房間碼：'+state.sharedRoom);});}break;
+    case'createRoom':break;
+    case'joinRoom':{const el=document.getElementById('join-code-input');joinBookRoom(el?.value||'');break;}
+    case'leaveRoom':break;
+    case'copyRoomCode':break;
+    case'openBookMenu':{const bk=(state.books||[]).find(b=>b.id===v);if(bk)state.editForm={...bk};state.modal={type:'editBook'};renderApp();break;}
+    case'openJoinRoom':state.modal={type:'joinRoom'};renderApp();break;
+    case'toggleJoinSection':{const s=document.getElementById('join-room-section');if(s){const show=s.style.display==='none';s.style.display=show?'block':'none';if(show)document.getElementById('picker-join-code')?.focus();}break;}
+    case'joinRoomFromPicker':{const el=document.getElementById('picker-join-code');joinBookRoom(el?.value||'');break;}
+    case'createBookRoom':createBookRoom(v);break;
+    case'joinBookRoomFromModal':{const el=document.getElementById('bk-join-code');joinBookRoom(el?.value||'');break;}
+    case'leaveBookRoom':leaveBookRoom(v);break;
+    case'copyBookRoomCode':{
+      const bk=(state.books||[]).find(b=>b.id===state.editForm?.id);
+      const code=bk?.roomCode||state.editForm?.roomCode;
+      if(code)navigator.clipboard?.writeText(code).then(()=>showToast('已複製房間碼 ✓')).catch(()=>showToast('房間碼：'+code));
+      break;}
     case'openNickModal':state.modal={type:'nickModal'};renderApp();break;
     case'saveNickModal':{
       const el=document.getElementById('nick-modal-input');
@@ -3244,6 +3654,29 @@ document.addEventListener('click',e=>{
 });
 
 // ── DONUT CHART ─────────────────────────────────────────────────────────────
+function drawCatPie(){
+  const canvas=document.getElementById('cat-pie');if(!canvas)return;
+  const{y,m}=state.statsMonth;
+  const txs=monthTxs(y,m);
+  const catMap={};txs.filter(t=>t.type==='expense').forEach(t=>{catMap[t.category]=(catMap[t.category]||0)+t.amount;});
+  const catArr=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const total=catArr.reduce((s,[,v])=>s+v,0);
+  const colors=['#C8A5A3','#8090A8','#8DAD93','#C49830','#8B6CC8','#C45555'];
+  const ctx=canvas.getContext('2d');const cx=80,cy=80,r=62,lw=24;
+  ctx.clearRect(0,0,160,160);
+  if(!total){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle='#E8D8D4';ctx.lineWidth=lw;ctx.stroke();return;}
+  let start=0;
+  catArr.forEach(([,amt],i)=>{
+    const angle=(amt/total)*Math.PI*2;
+    ctx.beginPath();ctx.arc(cx,cy,r,start-Math.PI/2,start+angle-Math.PI/2);
+    ctx.strokeStyle=colors[i%colors.length];ctx.lineWidth=lw;ctx.lineCap='butt';ctx.stroke();
+    start+=angle;
+  });
+  ctx.fillStyle='#3A2828';ctx.font='bold 15px Nunito,sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('$'+fmt(total),cx,cy-8);
+  ctx.font='12px Nunito,sans-serif';ctx.fillStyle='#907878';ctx.fillText('總支出',cx,cy+11);
+}
 function drawDonut(canvasId='donut',y,m){
   const canvas=document.getElementById(canvasId);if(!canvas)return;
   const _y=y??state.statsMonth.y,_m=m??state.statsMonth.m;
@@ -3268,6 +3701,7 @@ function drawDonut(canvasId='donut',y,m){
 
 // ── SERVICE WORKER + INIT ───────────────────────────────────────────────────
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+applyAppTheme();
 renderApp();
 </script>
 </body>
