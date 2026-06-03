@@ -16,6 +16,11 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <style>
 @font-face{font-family:'JFOpenHuninn';src:url('粉圓體.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'HuaKangMidRound';src:url('華康中圓體.TTC') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'HuaKangSuperRound';src:url('華康超圓體.TTC') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'LiXian';src:url('粒線體.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'CuXian';src:url('粗線體.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'DanDanFree';src:url('蛋蛋自由體.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --p:#C8A5A3;--p2:#D0B0B1;--p3:#C59390;
@@ -603,6 +608,7 @@ let state={
   homeBudgetPeriod:load('budget_mode','month'),
   theme:load('budget_theme','pink'),
   fontStyle:load('budget_font','huninn'),
+  hiddenFonts:load('budget_hidden_fonts',[]),
 };
 // 帳本初始化：若第一次執行則建立預設帳本並將舊資料歸入
 if(!state.books){
@@ -635,7 +641,12 @@ const THEMES={
           '--shadow':'rgba(160,130,80,.06)','--hdr-grad':'linear-gradient(135deg,#B89360 0%,#C9A87C 50%,#D8BC98 100%)'}},
 };
 const FONTS={
-  huninn:{name:'粉圓 jf-openhuninn',family:"'JFOpenHuninn','Nunito',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  huninn:{name:'粉圓體',family:"'JFOpenHuninn','Nunito',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  huakangmid:{name:'華康中圓體',family:"'HuaKangMidRound',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  huakangsup:{name:'華康超圓體',family:"'HuaKangSuperRound',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  lixian:{name:'粒線體',family:"'LiXian',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  cuxian:{name:'粗線體',family:"'CuXian',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
+  dandan:{name:'蛋蛋自由體',family:"'DanDanFree',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif"},
   system:{name:'系統預設字型',family:"-apple-system,'PingFang TC','Microsoft JhengHei UI','Helvetica Neue',sans-serif"},
 };
 function applyAppTheme(){
@@ -1996,7 +2007,16 @@ function renderStatsView(){
     </div>
   </div></div>
   <div class="content">
-    ${txs.length===0?`<div class="empty" style="padding:60px 20px"><div class="ei">📊</div><p>本月還沒有記錄</p></div>`:`
+    ${txs.length===0?`<div class="empty" style="padding:60px 20px">
+      <div style="width:64px;height:64px;border-radius:18px;background:var(--surface);border:2px solid var(--border);margin:0 auto 16px;display:flex;align-items:center;justify-content:center">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="20" width="7" height="11" rx="2.5" fill="var(--p)"/>
+          <rect x="13" y="12" width="7" height="19" rx="2.5" fill="var(--p2)"/>
+          <rect x="23" y="5" width="7" height="26" rx="2.5" fill="var(--p3)"/>
+        </svg>
+      </div>
+      <p>本月還沒有記錄</p>
+    </div>`:`
     ${catArr.length>0?`
     <div style="display:flex;gap:10px;margin-bottom:6px;margin-top:4px">
       <div style="flex:1;font-size:17px;font-weight:900;color:var(--text)">支出分布</div>
@@ -2310,14 +2330,18 @@ function renderThemeView(){
       </div>
     </div>`;
   }).join('');
-  const fontCards=Object.entries(FONTS).map(([id,f])=>{
+  const hidden=state.hiddenFonts||[];
+  const fontCards=Object.entries(FONTS).filter(([id])=>!hidden.includes(id)).map(([id,f])=>{
     const sel=curF===id;
-    return`<div data-a="setFont" data-v="${id}" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2.5px solid ${sel?'var(--text)':'var(--border)'};background:${sel?'var(--surface)':'var(--bg)'};transition:all .2s;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
-      <div style="flex:1;min-width:0">
-        <div style="font-size:17px;font-weight:700;color:var(--text);font-family:${f.family}">${f.name}</div>
-        <div style="font-size:13px;color:var(--text2);font-family:${f.family};margin-top:4px">記帳本・支出・收入 Aa 123</div>
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div data-a="setFont" data-v="${id}" style="cursor:pointer;padding:14px 16px;border-radius:14px;border:2.5px solid ${sel?'var(--text)':'var(--border)'};background:${sel?'var(--surface)':'var(--bg)'};transition:all .2s;flex:1;display:flex;align-items:center;justify-content:space-between">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:17px;font-weight:700;color:var(--text);font-family:${f.family}">${f.name}</div>
+          <div style="font-size:13px;color:var(--text2);font-family:${f.family};margin-top:4px">記帳本・支出・收入 Aa 123</div>
+        </div>
+        <div style="font-size:22px;color:${sel?'var(--text)':'var(--border)'};flex-shrink:0;margin-left:10px">${sel?'✓':'○'}</div>
       </div>
-      <div style="font-size:22px;color:${sel?'var(--text)':'var(--border)'};flex-shrink:0;margin-left:10px">${sel?'✓':'○'}</div>
+      ${id!=='system'?`<button data-a="deleteFont" data-v="${id}" style="flex-shrink:0;width:36px;height:36px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">🗑️</button>`:''}
     </div>`;
   }).join('');
   return`<div class="hdr"><div class="hdr-in">
@@ -2385,7 +2409,6 @@ function renderBooksView(){
     ${list.length>0?list.map(bookCard).join(''):
       `<div class="empty" style="padding:40px 20px"><div class="ei" style="font-size:40px">${curTab==='active'?'📒':'📦'}</div><p>${curTab==='active'?'尚無使用中的帳本':'沒有封存的帳本'}</p></div>`
     }
-    ${curTab==='active'?`<button class="add-fab" data-a="openJoinRoom" style="margin-top:6px">📥 輸入房間碼加入共同帳本</button>`:''}
   </div>`;
 }
 // ── RENDER: ACC TYPES ──────────────────────────────────────────────────────
@@ -3426,6 +3449,12 @@ document.addEventListener('click',e=>{
     case'setBudgetMode':state.budgetMode=v;state.homeBudgetPeriod=v;save('budget_mode',v);renderApp();break;
     case'setTheme':state.theme=v;save('budget_theme',v);applyAppTheme();renderApp();break;
     case'setFont':state.fontStyle=v;save('budget_font',v);applyAppTheme();renderApp();break;
+    case'deleteFont':{
+      const h=[...(state.hiddenFonts||[]),v];
+      state.hiddenFonts=h;save('budget_hidden_fonts',h);
+      if(state.fontStyle===v){state.fontStyle='system';save('budget_font','system');applyAppTheme();}
+      showToast('已移除字體');renderApp();break;
+    }
     case'newAccType':
       state.editForm={icon:'💰',name:'',_isNew:true};
       state.modal={type:'editAccType'};renderApp();break;
