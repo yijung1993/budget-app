@@ -38,7 +38,7 @@ html,body{height:100%}
 body{font-family:var(--font-family);
   background:var(--bg);color:var(--text);max-width:1000px;margin:0 auto;
   min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;user-select:none}
-#app{min-height:100vh;padding-bottom:calc(var(--nb)+var(--safe))}
+#app{min-height:100vh;padding-bottom:calc(var(--nb)+var(--safe)+14px)}
 
 /* top bar */
 .top-bar{display:none;background:var(--surface);border-bottom:2px solid var(--border);
@@ -128,14 +128,14 @@ body{font-family:var(--font-family);
 
 /* form fields */
 .form-row{display:flex;gap:8px;margin-bottom:14px}
-.form-field{flex:1}
+.form-field{flex:1;min-width:0}
 .form-field label{display:block;font-size:11px;font-weight:700;color:var(--text2);
   margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
 .form-input{width:100%;padding:11px 12px;border:2px solid var(--border);border-radius:10px;
   font-size:15px;outline:none;background:var(--bg);color:var(--text);
   font-family:inherit;transition:border-color .2s}
 .form-input:focus{border-color:var(--p);background:white}
-input[type="date"].form-input{accent-color:var(--p);color-scheme:light}
+input[type="date"].form-input{accent-color:var(--p);color-scheme:light;min-width:0;max-width:100%}
 input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;cursor:pointer}
 .emoji-grid{display:flex;flex-wrap:wrap;gap:4px;max-height:140px;overflow-y:auto;
   padding:8px;background:var(--bg);border-radius:10px;border:1.5px solid var(--border);margin-bottom:14px}
@@ -320,7 +320,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 /* modal */
 .overlay{position:fixed;inset:0;background:rgba(50,20,5,.45);z-index:100;display:flex;align-items:flex-end}
 .modal{background:white;border-radius:var(--r) var(--r) 0 0;
-  padding:16px 18px calc(18px + var(--safe));width:100%;max-height:82vh;overflow-y:auto;
+  padding:16px 18px calc(18px + var(--safe));width:100%;max-height:82vh;overflow-y:auto;overflow-x:hidden;
   animation:slideUp .28s cubic-bezier(.32,.72,0,1)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px}
@@ -461,6 +461,12 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 /* fund cards always equal height, side by side */
 .add-layout{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}
 .add-layout>.card{margin-bottom:0}
+/* dandan font scale correction */
+body[data-font="dandan"]{font-size:13px}
+body[data-font="dandan"] .amt-input{font-size:26px}
+body[data-font="dandan"] .amt-pre{font-size:20px}
+body[data-font="dandan"] .sum-item .val{font-size:20px}
+body[data-font="dandan"] .hdr h1{font-size:25px}
 /* desktop */
 @media(min-width:768px){
   body{max-width:none;margin:0;padding-bottom:0}
@@ -488,7 +494,10 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
   .cat-btn{font-size:10px}
   .modal-title{font-size:17px}
   .form-row{flex-direction:column;gap:6px}
+  .form-field{width:100%}
   .modal{max-height:78vh!important}
+  body[data-font="dandan"] .amt-input{font-size:22px}
+  body[data-font="dandan"] .amt-pre{font-size:16px}
 }
   </style>
 </head>
@@ -665,6 +674,7 @@ function applyAppTheme(){
   if(t)Object.entries(t.vars).forEach(([k,v])=>root.setProperty(k,v));
   const f=FONTS[state.fontStyle||'huninn'];
   if(f)document.body.style.fontFamily=f.family;
+  document.body.dataset.font=state.fontStyle||'huninn';
 }
 
 state.form=defaultForm();
