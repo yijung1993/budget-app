@@ -631,7 +631,7 @@ let state={
   statsYear:{y:_now.getFullYear()},
   modal:null,
   editForm:{},
-  sharedRoom:null,
+
   books:load('budget_books',null),
   activeBook:load('budget_active_book','all'),
   booksTab:'active',
@@ -754,7 +754,15 @@ function genRoomCode(){
 function _startBookListener(code,bookId){
   if(_roomListeners[code]){_roomListeners[code]();delete _roomListeners[code];}
   _roomListeners[code]=_db.collection('rooms').doc(code).onSnapshot(snap=>{
-    if(!snap.exists)return;
+    if(!snap.exists){
+      if(_roomListeners[code]){_roomListeners[code]();delete _roomListeners[code];}
+      state.txs=state.txs.filter(t=>t.bookId!==bookId);
+      state.books=(state.books||[]).filter(b=>b.id!==bookId);
+      if(state.activeBook===bookId)state.activeBook='all';
+      save('budget_txs',state.txs);save('budget_books',state.books);save('budget_active_book',state.activeBook);
+      showToast('此共同帳本已被解散');renderApp();
+      return;
+    }
     const d=snap.data();
     if(d.updatedBy===DEVICE_ID)return;
     const incoming=(d.txs||[]).map(t=>({...t,bookId}));
@@ -773,11 +781,11 @@ async function createBookRoom(bookId){
     if(!book)return;
     const txs=state.txs.filter(t=>t.bookId===bookId).map(({bookId:_bd,...t})=>t);
     await _db.collection('rooms').doc(code).set({
-      bookName:book.name,txs,updatedBy:DEVICE_ID,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      bookName:book.name,txs,createdBy:DEVICE_ID,updatedBy:DEVICE_ID,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
     });
     const idx=(state.books||[]).findIndex(b=>b.id===bookId);
-    if(idx>=0)state.books[idx]={...state.books[idx],roomCode:code};
-    saveAll();state.editForm={...state.editForm,roomCode:code};
+    if(idx>=0)state.books[idx]={...state.books[idx],roomCode:code,createdBy:DEVICE_ID};
+    saveAll();state.editForm={...state.editForm,roomCode:code,createdBy:DEVICE_ID};
     _startBookListener(code,bookId);
     showToast('房間碼已建立 ✓');renderApp();
   }catch(e){showToast('建立失敗，請確認網路連線');}
@@ -794,7 +802,7 @@ async function joinBookRoom(code){
     if(!existing){
       const newBook={id:bookId,name:d.bookName||'共同帳本',icon:'👥',
         type:'shared',currency:'TWD',isDefault:false,isArchived:false,
-        createdAt:todayStr(),roomCode:code};
+        createdAt:todayStr(),roomCode:code,createdBy:d.createdBy||null};
       state.books=[...(state.books||[]),newBook];
     }
     const incoming=(d.txs||[]).map(t=>({...t,bookId}));
@@ -804,6 +812,19 @@ async function joinBookRoom(code){
     _startBookListener(code,bookId);
     state.modal=null;showToast('已加入共同帳本 ✓');renderApp();
   }catch(e){showToast('加入失敗，請確認網路連線');}
+}
+async function disbandBookRoom(bookId){
+  const book=(state.books||[]).find(b=>b.id===bookId);
+  if(!book||!book.roomCode)return;
+  if(!confirm('確定解散共同帳本？對方會立即失去連線，你的帳本資料仍保留。'))return;
+  const code=book.roomCode;
+  try{
+    if(_roomListeners[code]){_roomListeners[code]();delete _roomListeners[code];}
+    await _db.collection('rooms').doc(code).delete();
+    const idx=(state.books||[]).findIndex(b=>b.id===bookId);
+    if(idx>=0){delete state.books[idx].roomCode;delete state.books[idx].createdBy;state.books[idx].type='personal';}
+    saveAll();state.modal=null;showToast('已解除共同帳本，資料保留在本機 ✓');renderApp();
+  }catch(e){showToast('解散失敗，請確認網路連線');}
 }
 function leaveBookRoom(bookId){
   const book=(state.books||[]).find(b=>b.id===bookId);
@@ -2177,46 +2198,6 @@ function renderHistView(){
   </div>`;
 }
 
-// ── RENDER: SHARED ─────────────────────────────────────────────────────────
-function renderSharedView(){
-  const code=state.sharedRoom;
-  if(code){
-    return`<div class="hdr"><div class="hdr-in">
-      <div class="hdr-row"><div><h1>共同帳本</h1></div>
-        <button class="cal-nb" data-a="stab" data-v="main">←</button>
-      </div>
-    </div></div>
-    <div class="content">
-      <div class="room-card">
-        <div style="font-size:13px;opacity:.85;margin-bottom:8px"><span class="sync-dot"></span>已連線・即時同步中</div>
-        <div style="font-size:14px;opacity:.85;text-align:center">你的房間碼</div>
-        <div class="room-code">${code}</div>
-        <div style="font-size:13px;opacity:.75;text-align:center;line-height:1.6">把這組碼傳給對方<br>對方輸入後就能一起記帳</div>
-      </div>
-      <button class="save-btn" style="margin-bottom:12px" data-a="copyRoomCode">複製房間碼</button>
-      <button class="outline-btn" style="width:100%;color:var(--expense);border-color:var(--expense)" data-a="leaveRoom">退出共同帳本</button>
-    </div>`;
-  }
-  return`<div class="hdr"><div class="hdr-in">
-    <div class="hdr-row"><div><h1>共同帳本</h1></div>
-      <button class="cal-nb" data-a="stab" data-v="main">←</button>
-    </div>
-  </div></div>
-  <div class="content">
-    <div class="card">
-      <div class="card-title">建立新帳本</div>
-      <p style="font-size:14px;color:var(--text2);margin-bottom:14px;line-height:1.6">建立後會得到一組 6 位數的房間碼，傳給對方就能一起記帳，兩邊資料即時同步。</p>
-      <button class="save-btn green" data-a="createRoom">建立共同帳本</button>
-    </div>
-    <div class="card">
-      <div class="card-title">加入已有帳本</div>
-      <p style="font-size:14px;color:var(--text2);margin-bottom:14px;line-height:1.6">輸入對方給你的 6 位數房間碼，加入後會同步對方的帳目資料。</p>
-      <input class="room-input" id="join-code-input" maxlength="6" placeholder="輸入房間碼">
-      <button class="save-btn latte" data-a="joinRoom">加入</button>
-    </div>
-  </div>`;
-}
-
 // ── RENDER: SETTINGS ───────────────────────────────────────────────────────
 function renderSettingsView(){
   const nick=state.nickname||'';
@@ -2551,7 +2532,10 @@ function renderEditBookModal(){
         <div class="room-code" style="font-size:28px;letter-spacing:5px;text-align:center;margin:8px 0;font-weight:800">${f.roomCode}</div>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button class="save-btn" style="flex:1;padding:10px;background:rgba(255,255,255,.22);box-shadow:none" data-a="copyBookRoomCode">複製</button>
-          <button class="outline-btn" style="flex:1;padding:10px;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);background:transparent" data-a="leaveBookRoom" data-v="${f.id}">退出房間</button>
+          ${f.createdBy===DEVICE_ID
+            ?`<button class="outline-btn" style="flex:1;padding:10px;border-color:rgba(255,100,100,.7);color:rgba(255,160,160,.95);background:transparent" data-a="disbandBookRoom" data-v="${f.id}">解散帳本</button>`
+            :`<button class="outline-btn" style="flex:1;padding:10px;border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.85);background:transparent" data-a="leaveBookRoom" data-v="${f.id}">退出房間</button>`
+          }
         </div>
       </div>`;
     }else{
@@ -2573,8 +2557,11 @@ function renderEditBookModal(){
     ).join('')}</div>
     <div class="slabel">帳本類型</div>
     <div class="type-chips" style="margin-bottom:14px">
-      <button class="type-chip${curType==='personal'?' active':''}" data-a="setBookType" data-v="personal">👤 個人帳本</button>
-      <button class="type-chip${curType==='shared'?' active':''}" data-a="setBookType" data-v="shared">👥 共同帳本</button>
+      ${f.roomCode
+        ?`<button class="type-chip active" style="opacity:.6;cursor:default">${curType==='shared'?'👥 共同帳本':'👤 個人帳本'}</button><span style="font-size:12px;color:var(--text2);margin-left:8px">退出或解散後才能變更</span>`
+        :`<button class="type-chip${curType==='personal'?' active':''}" data-a="setBookType" data-v="personal">👤 個人帳本</button>
+      <button class="type-chip${curType==='shared'?' active':''}" data-a="setBookType" data-v="shared">👥 共同帳本</button>`
+      }
     </div>
     <div class="slabel">幣別</div>
     <div class="acc-row" style="margin-bottom:14px">
@@ -2589,7 +2576,7 @@ function renderEditBookModal(){
         ?`<button class="outline-btn" style="flex:1;color:#B89360;border-color:#B89360" data-a="archiveBook" data-v="${f.id}">封存帳本</button>`
         :`<button class="outline-btn" style="flex:1;color:var(--income);border-color:var(--income)" data-a="unarchiveBook" data-v="${f.id}">取消封存</button>`
       }
-      <button class="outline-btn" style="flex:1;color:var(--expense);border-color:var(--expense)" data-a="delBook" data-v="${f.id}">刪除帳本</button>
+      ${!(curType==='shared'&&f.roomCode)?`<button class="outline-btn" style="flex:1;color:var(--expense);border-color:var(--expense)" data-a="delBook" data-v="${f.id}">刪除帳本</button>`:''}
     </div>`:''}
     <button class="outline-btn" style="width:100%" data-a="closeModal">取消</button>
   </div></div>`;
@@ -2607,7 +2594,11 @@ function renderBookMenuModal(){
       ?`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#B89360,#C9A87C)" data-a="archiveBook" data-v="${bk.id}">封存帳本</button>`
       :`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#5A9068,#7AB888)" data-a="unarchiveBook" data-v="${bk.id}">取消封存</button>`
     }
-    ${!bk.isDefault?`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#C45555,#D46868)" data-a="delBook" data-v="${bk.id}">刪除帳本</button>`:''}
+    ${!bk.isDefault?(bk.type==='shared'&&bk.roomCode
+      ?(bk.createdBy===DEVICE_ID
+        ?`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#C45555,#D46868)" data-a="disbandBookRoom" data-v="${bk.id}">解散帳本</button>`
+        :`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#B87878,#C89090)" data-a="leaveBookRoom" data-v="${bk.id}">退出帳本</button>`)
+      :`<button class="save-btn" style="margin-bottom:8px;background:linear-gradient(135deg,#C45555,#D46868)" data-a="delBook" data-v="${bk.id}">刪除帳本</button>`):''}
     <button class="outline-btn" style="width:100%;margin-top:4px" data-a="closeModal">取消</button>
   </div></div>`;
 }
@@ -3681,10 +3672,7 @@ document.addEventListener('click',e=>{
         }).catch(()=>showToast('附件載入失敗'));
       }
       break;}
-    case'createRoom':break;
     case'joinRoom':{const el=document.getElementById('join-code-input');joinBookRoom(el?.value||'');break;}
-    case'leaveRoom':break;
-    case'copyRoomCode':break;
     case'openBookMenu':{const bk=(state.books||[]).find(b=>b.id===v);if(bk)state.editForm={...bk};state.modal={type:'editBook'};renderApp();break;}
     case'openJoinRoom':state.modal={type:'joinRoom'};renderApp();break;
     case'toggleJoinSection':{const s=document.getElementById('join-room-section');if(s){const show=s.style.display==='none';s.style.display=show?'block':'none';if(show)document.getElementById('picker-join-code')?.focus();}break;}
@@ -3692,6 +3680,7 @@ document.addEventListener('click',e=>{
     case'createBookRoom':createBookRoom(v);break;
     case'joinBookRoomFromModal':{const el=document.getElementById('bk-join-code');joinBookRoom(el?.value||'');break;}
     case'leaveBookRoom':leaveBookRoom(v);break;
+    case'disbandBookRoom':disbandBookRoom(v);break;
     case'copyBookRoomCode':{
       const bk=(state.books||[]).find(b=>b.id===state.editForm?.id);
       const code=bk?.roomCode||state.editForm?.roomCode;
