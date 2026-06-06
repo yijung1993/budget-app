@@ -829,11 +829,11 @@ async function disbandBookRoom(bookId){
 function leaveBookRoom(bookId){
   const book=(state.books||[]).find(b=>b.id===bookId);
   if(!book||!book.roomCode)return;
-  if(!confirm('確定退出共同帳本？退出後本機帳本資料仍保留。'))return;
+  if(!confirm('確定退出共同帳本？退出後本機的帳本與記錄將一併刪除。'))return;
   const code=book.roomCode;
   if(_roomListeners[code]){_roomListeners[code]();delete _roomListeners[code];}
-  const idx=(state.books||[]).findIndex(b=>b.id===bookId);
-  if(idx>=0)delete state.books[idx].roomCode;
+  state.txs=state.txs.filter(t=>t.bookId!==bookId);
+  state.books=(state.books||[]).filter(b=>b.id!==bookId);
   if(state.activeBook===bookId)state.activeBook='all';
   saveAll();state.modal=null;showToast('已退出共同帳本');renderApp();
 }
