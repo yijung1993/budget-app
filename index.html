@@ -335,15 +335,17 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .bottom-nav{position:fixed;bottom:calc(var(--safe)+14px);left:50%;
   transform:translateX(-50%);
   width:calc(100% - 32px);max-width:420px;height:60px;
-  background:#2A1E1E;border-radius:999px;
+  background:white;border-radius:999px;
   display:flex;align-items:center;padding:0 6px;
-  z-index:50;box-shadow:0 8px 32px rgba(0,0,0,.22)}
+  z-index:50;
+  box-shadow:0 4px 24px rgba(58,40,40,.18);
+  border:1.5px solid var(--border)}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:2px;cursor:pointer;border:none;background:transparent;
-  color:rgba(255,255,255,.45);transition:all .18s;font-family:inherit;
-  border-radius:999px;height:48px;padding:0 4px}
-.nav-btn.active{color:white;background:rgba(255,255,255,.15)}
-.nav-ico{font-size:20px;line-height:1}
+  color:var(--text2);transition:all .18s;font-family:inherit;
+  border-radius:999px;height:48px;padding:0 4px;opacity:.55}
+.nav-btn.active{color:var(--p3);background:var(--surface);opacity:1}
+.nav-ico{line-height:1}
 .nav-lbl{font-size:11px;font-weight:700}
 
 /* misc */
