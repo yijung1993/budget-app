@@ -34,7 +34,7 @@
   --bg:#FFFFFF;--surface:#F9F3F2;
   --text:#3A2828;--text2:#907878;
   --border:#EDE0DC;--shadow:rgba(180,130,130,.06);
-  --r:16px;--nb:66px;--safe:env(safe-area-inset-bottom,0px);
+  --r:16px;--nb:74px;--safe:env(safe-area-inset-bottom,0px);
   --hdr-grad:linear-gradient(135deg,#C59390 0%,#C8A5A3 50%,#D0B0B1 100%);
   --font-family:'JFOpenHuninn','Nunito',-apple-system,'PingFang TC','Microsoft JhengHei UI',sans-serif;
 }
@@ -69,7 +69,7 @@ body{font-family:var(--font-family);
 .sum-item .val{font-size:24px;font-weight:800;margin-top:2px}
 
 /* content & card */
-.content{padding:14px 14px calc(var(--nb)+var(--safe)+20px)}
+.content{padding:14px 16px calc(var(--nb)+var(--safe)+20px)}
 .card{background:var(--surface);border-radius:var(--r);padding:16px;margin-bottom:12px;
   border:1px solid rgba(240,217,192,.7);box-shadow:0 2px 10px var(--shadow)}
 .card-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;
@@ -331,17 +331,20 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .modal-title{font-size:19px;font-weight:800;margin-bottom:14px}
 .modal-btns{display:flex;gap:8px;margin-top:16px}
 
-/* bottom nav */
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:1000px;height:calc(var(--nb)+var(--safe));
-  background:white;border-top:2px solid var(--border);display:flex;
-  padding-bottom:var(--safe);z-index:50;box-shadow:0 -4px 20px var(--shadow)}
+/* bottom nav — floating pill */
+.bottom-nav{position:fixed;bottom:calc(var(--safe)+14px);left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 32px);max-width:420px;height:60px;
+  background:#2A1E1E;border-radius:999px;
+  display:flex;align-items:center;padding:0 6px;
+  z-index:50;box-shadow:0 8px 32px rgba(0,0,0,.22)}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;cursor:pointer;border:none;background:transparent;color:var(--text2);
-  transition:color .18s;font-family:inherit}
-.nav-btn.active{color:var(--p)}
-.nav-ico{font-size:24px;line-height:1}
-.nav-lbl{font-size:12px;font-weight:700}
+  gap:2px;cursor:pointer;border:none;background:transparent;
+  color:rgba(255,255,255,.45);transition:all .18s;font-family:inherit;
+  border-radius:999px;height:48px;padding:0 4px}
+.nav-btn.active{color:white;background:rgba(255,255,255,.15)}
+.nav-ico{font-size:20px;line-height:1}
+.nav-lbl{font-size:11px;font-weight:700}
 
 /* misc */
 .empty{text-align:center;padding:50px 20px;color:var(--text2)}
@@ -1432,11 +1435,11 @@ function renderTopBar(){
 function renderBottomNav(){
   const tabs=[{id:'add',img:'home',lbl:'首頁'},{id:'calendar',img:'calendar',lbl:'行事曆'},
     {id:'assets',img:'assets',lbl:'資產'},{id:'stats',img:'stats',lbl:'統計'},
-    {id:'history',img:'history',lbl:'歷史'},{id:'insurance',img:'insurance',lbl:'保險'},
     {id:'settings',img:'settings',lbl:'設定'}];
+  const activeView=(['history'].includes(state.view)?'stats':['insurance'].includes(state.view)?'assets':state.view);
   return`<nav class="bottom-nav">${tabs.map(t=>
-    `<button class="nav-btn${state.view===t.id?' active':''}" data-nav="${t.id}" style="opacity:${state.view===t.id?'1':'0.5'}">
-      <span class="nav-ico"><img src="icons/${t.img}.png" width="28" height="28"></span>
+    `<button class="nav-btn${activeView===t.id?' active':''}" data-nav="${t.id}">
+      <span class="nav-ico"><img src="icons/${t.img}.png" width="22" height="22"></span>
       <span class="nav-lbl">${t.lbl}</span></button>`
   ).join('')}</nav>`;
 }
@@ -1470,8 +1473,8 @@ function renderView(){
     case'assets':return renderAssetsView();
     case'accounts':return renderAssetsView();
     case'stats':return renderStatsView();
-    case'history':return renderHistView();
-    case'insurance':return renderInsView();
+    case'history':state.view='stats';state.statsView='history';return renderStatsView();
+    case'insurance':state.view='assets';state.assetsTab='insurance';return renderAssetsView();
     case'settings':return renderSettingsView();
   }return'';
 }
@@ -1800,7 +1803,7 @@ function renderAssetsView(){
   const loanDebt=state.loans.reduce((s,l)=>s+(l.remainingAmount||0),0);
   const netWorth=totalAssets-ccDebt-loanDebt;
   const tab=(state.assetsTab==='fixed'?'accounts':state.assetsTab)||'accounts';
-  const subTabs=[{id:'accounts',lbl:'帳戶'},{id:'loans',lbl:'貸款'}];
+  const subTabs=[{id:'accounts',lbl:'帳戶'},{id:'loans',lbl:'貸款'},{id:'insurance',lbl:'保險'}];
   let content='';
   if(tab==='accounts'){
     const types=state.accTypes||DEFAULT_ACC_TYPES;
@@ -1867,6 +1870,15 @@ function renderAssetsView(){
     </div>`:''}
     ${loanCards||`<div class="empty" style="padding:40px 20px"><div class="ei" style="font-size:36px">🏦</div><p>尚無貸款記錄</p></div>`}
     <button class="add-fab" data-a="newLoan" style="margin-top:4px">＋ 新增貸款</button>`;
+  } else if(tab==='insurance'){
+    const total=state.insurances.reduce((s,ins)=>s+insYearlyPremium(ins),0);
+    const active=state.insurances.filter(ins=>insStatus(ins).cls==='active').length;
+    content=`<div class="card" style="background:linear-gradient(135deg,#E8EEF8,#EEF4FF);border-color:#C8D8F0;margin-bottom:12px;display:flex;gap:24px;align-items:center">
+      <div><div style="font-size:11px;color:var(--text2);font-weight:700">保單數量</div><div style="font-size:20px;font-weight:800">${state.insurances.length} 張<span style="font-size:12px;color:var(--text2);font-weight:600;margin-left:4px">${active} 張生效中</span></div></div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="outline-btn" style="font-size:12px;padding:6px 10px" data-a="importIns">📥 匯入</button>
+      </div>
+    </div>`+renderInsBodyHtml();
   }
   return`<div class="hdr"><div class="hdr-in">
     <h1>資產總覽</h1>
@@ -2048,6 +2060,8 @@ function renderEditTxModal(){
 // ── RENDER: STATS ──────────────────────────────────────────────────────────
 function renderStatsView(){
   if(state.statsView==='year')return renderYearStatsView();
+  if(state.statsView==='history')return renderHistView();
+
   const{y,m}=state.statsMonth;
   const txs=monthTxs(y,m);const sum=calcSum(txs);
   const catMap={};
@@ -2076,9 +2090,10 @@ function renderStatsView(){
   return`<div class="hdr"><div class="hdr-in">
     <div class="hdr-row">
       <div style="display:flex;align-items:center;gap:8px">
-        <h1>月份統計</h1>
+        <h1>統計</h1>
         <button class="stats-toggle-btn active" data-a="statsView" data-v="month">月</button>
         <button class="stats-toggle-btn" data-a="statsView" data-v="year">年</button>
+        <button class="stats-toggle-btn" data-a="statsView" data-v="history">明細</button>
       </div>
       <select id="stats-month-sel" class="stats-sel">
         ${allMonths.map(({y:my,m:mm})=>`<option value="${my}-${mm}" ${state.statsMonth.y===my&&state.statsMonth.m===mm?'selected':''} style="color:#2D1A0E;background:white">${my}年 ${MONTHS[mm]}</option>`).join('')}
@@ -2202,7 +2217,15 @@ function renderHistView(){
   const groups={};list.forEach(t=>{(groups[t.date]=groups[t.date]||[]).push(t);});
   const dates=Object.keys(groups).sort((a,b)=>b.localeCompare(a));
   return`<div class="hdr"><div class="hdr-in">
-    <h1>歷史記錄</h1><div class="sub">共 ${list.length} 筆</div>
+    <div class="hdr-row">
+      <div style="display:flex;align-items:center;gap:8px">
+        <h1>明細</h1>
+        <button class="stats-toggle-btn" data-a="statsView" data-v="month">月</button>
+        <button class="stats-toggle-btn" data-a="statsView" data-v="year">年</button>
+        <button class="stats-toggle-btn active" data-a="statsView" data-v="history">明細</button>
+      </div>
+      <div class="sub">共 ${list.length} 筆</div>
+    </div>
   </div></div>
   <div class="content">
     <div class="chips" style="margin-bottom:8px">
@@ -3007,9 +3030,7 @@ function renderInsCardSm(ins){
     ${covHtml}
   </div>`;
 }
-function renderInsView(){
-  const total=state.insurances.reduce((s,ins)=>s+insYearlyPremium(ins),0);
-  const active=state.insurances.filter(ins=>insStatus(ins).cls==='active').length;
+function renderInsBodyHtml(){
   const alerts=insAlerts();
   const persons=insAllPersons();
   let filtered=state.insurances;
@@ -3017,21 +3038,7 @@ function renderInsView(){
   if(state.insFilter!=='all')filtered=filtered.filter(i=>i.type===state.insFilter);
   if(state.insCompanyFilter!=='all')filtered=filtered.filter(i=>i.company===state.insCompanyFilter);
 
-  const hdr=`<div class="hdr ins-hdr">
-    <div class="hdr-in">
-      <div class="hdr-row">
-        <div><h1>🛡️ 保險管理</h1>
-        <div class="sub">共 ${state.insurances.length} 張保單・${active} 張生效中</div></div>
-        <button class="outline-btn" style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5);color:white;font-size:13px;flex-shrink:0" data-a="importIns">📥 匯入 Excel</button>
-      </div>
-      <div class="ins-total">
-        <div class="ins-total-item"><div class="il">年繳總保費</div><div class="iv">$${fmt(total)}</div></div>
-        <div class="ins-total-item"><div class="il">月均保費</div><div class="iv">$${fmt(Math.round(total/12))}</div></div>
-      </div>
-    </div>
-  </div>`;
-
-  const alertHtml=alerts.length?`<div style="padding:12px 14px 0">${alerts.map(ins=>`
+  const alertHtml=alerts.length?`<div style="margin-bottom:8px">${alerts.map(ins=>`
     <div class="ins-alert">
       <span style="font-size:20px">${INS_TICONS[ins.type]||'📋'}</span>
       <div style="flex:1;min-width:0">
@@ -3040,7 +3047,6 @@ function renderInsView(){
       </div>
     </div>`).join('')}</div>`:'';
 
-  // 合併手動成員 + 保單自動偵測（去除重複）
   const savedNames=new Set(state.insMembers.map(m=>m.name));
   const detectedExtra=persons.filter(n=>!savedNames.has(n));
   const allMembers=[
@@ -3064,7 +3070,6 @@ function renderInsView(){
     ${companies.map(c=>`<button class="chip${state.insCompanyFilter===c?' ac':''}" data-a="insCompanyFilt" data-v="${c}">${c}</button>`).join('')}
   </div>`:'';
 
-  // 依保單號碼分組
   const groups={},ungrouped=[];
   filtered.forEach(ins=>{
     const key=(ins.policyNo||'').trim();
@@ -3084,10 +3089,28 @@ function renderInsView(){
     cards+=`<div class="ins-group">${renderGroup(g.items,`${g.policyNo}${g.company?' · '+g.company:''}`)}</div>`;
   });
   if(ungrouped.length)cards+=`<div class="ins-group">${renderGroup(ungrouped,'')}</div>`;
-  if(!filtered.length)cards=`<div class="empty"><div class="ei">🛡️</div><p>尚未新增保單<br><span style="font-size:13px">點下方 + 新增</span></p></div>`;
+  if(!filtered.length)cards=`<div class="empty"><div class="ei">🛡️</div><p>尚未新增保單<br><span style="font-size:13px">點 ＋ 新增</span></p></div>`;
 
-  return hdr+alertHtml+`<div class="content" style="padding-top:12px">${personChips}${chips}${companyChips}${cards}</div>`+
+  return alertHtml+personChips+chips+companyChips+cards+
     `<input type="file" id="ins-import-input" accept=".xlsx,.xls" style="display:none">`;
+}
+function renderInsView(){
+  const total=state.insurances.reduce((s,ins)=>s+insYearlyPremium(ins),0);
+  const active=state.insurances.filter(ins=>insStatus(ins).cls==='active').length;
+  const hdr=`<div class="hdr ins-hdr">
+    <div class="hdr-in">
+      <div class="hdr-row">
+        <div><h1>🛡️ 保險管理</h1>
+        <div class="sub">共 ${state.insurances.length} 張保單・${active} 張生效中</div></div>
+        <button class="outline-btn" style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5);color:white;font-size:13px;flex-shrink:0" data-a="importIns">📥 匯入 Excel</button>
+      </div>
+      <div class="ins-total">
+        <div class="ins-total-item"><div class="il">年繳總保費</div><div class="iv">$${fmt(total)}</div></div>
+        <div class="ins-total-item"><div class="il">月均保費</div><div class="iv">$${fmt(Math.round(total/12))}</div></div>
+      </div>
+    </div>
+  </div>`;
+  return hdr+`<div class="content" style="padding-top:12px">${renderInsBodyHtml()}</div>`;
 }
 
 function renderEditMemberModal(){
