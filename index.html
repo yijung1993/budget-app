@@ -1924,7 +1924,7 @@ function renderCalView(){
     const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dow=new Date(ds+'T00:00:00').getDay();
     const isToday=ds===today;const amt=dayMap[d];
-    const amtStr=amt?'$'+Math.round(amt).toString():'';
+    const amtStr=amt?fmt(amt):'';
     cells+=`<div class="cal-day${isToday?' today':''}${amt?' has-exp':''}${dow===0?' sun':dow===6?' sat':''}"
       data-a="openDay" data-v="${ds}">
       <span class="cdn">${d}</span>
