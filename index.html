@@ -527,7 +527,7 @@ body[data-font="dandan"] .hdr h1{font-size:25px}
   .sum-metric .mv{font-size:17px}
   .ins-total-item .iv{font-size:17px}
   .ef-bal{font-size:28px}
-  .cda{font-size:16px}
+  .cda{font-size:12px}
   /* 日曆標題 */
   .cal-title-text{font-size:16px}
   /* 導覽列 */
@@ -1925,11 +1925,10 @@ function renderCalView(){
     const dow=new Date(ds+'T00:00:00').getDay();
     const isToday=ds===today;const amt=dayMap[d];
     const amtStr=amt?'$'+Math.round(amt).toString():'';
-    const amtFs=amt>=1000000?'font-size:15px':'';
     cells+=`<div class="cal-day${isToday?' today':''}${amt?' has-exp':''}${dow===0?' sun':dow===6?' sat':''}"
       data-a="openDay" data-v="${ds}">
       <span class="cdn">${d}</span>
-      <span class="cda" style="${amtFs}">${amtStr}</span>
+      <span class="cda">${amtStr}</span>
     </div>`;
   }
   return`<div class="hdr"><div class="hdr-in">
