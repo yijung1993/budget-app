@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#9FB5C3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -42,7 +42,7 @@ html,body{height:100%}
 body{font-family:var(--font-family);
   background:var(--bg);color:var(--text);max-width:1000px;margin:0 auto;
   min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;user-select:none}
-#app{min-height:100vh;padding-bottom:calc(var(--nb)+var(--safe)+14px)}
+#app{min-height:100vh;padding-bottom:calc(var(--nb)+34px + env(safe-area-inset-bottom,0px))}
 
 /* top bar */
 .top-bar{display:none;background:var(--surface);border-bottom:2px solid var(--border);
@@ -69,7 +69,7 @@ body{font-family:var(--font-family);
 .sum-item .val{font-size:24px;font-weight:800;margin-top:2px}
 
 /* content & card */
-.content{padding:14px 16px calc(var(--nb)+var(--safe)+20px)}
+.content{padding:14px 16px calc(var(--nb)+20px + env(safe-area-inset-bottom,0px))}
 .card{background:var(--surface);border-radius:var(--r);padding:16px;margin-bottom:12px;
   border:1px solid rgba(240,217,192,.7);box-shadow:0 2px 10px var(--shadow)}
 .card-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;
@@ -244,7 +244,8 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .cal-day.today .cdn,.cal-day.today .cda{color:white!important}
 .cdn{font-size:14px;font-weight:700;line-height:1}
 .cda{font-size:20px;color:var(--expense);font-weight:800;margin-top:6px;line-height:1;
-  display:block;padding-top:10px;border-top:1.5px solid rgba(196,85,85,.28);width:80%;text-align:center;height:36px}
+  display:block;padding-top:10px;border-top:1.5px solid rgba(196,85,85,.28);width:80%;text-align:center;height:36px;
+  overflow:hidden;white-space:nowrap}
 .cal-day.today .cda{border-top-color:rgba(255,255,255,.4)!important}
 
 /* stats */
@@ -332,7 +333,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator{opacity:.6;curs
 .modal-btns{display:flex;gap:8px;margin-top:16px}
 
 /* bottom nav — floating pill */
-.bottom-nav{position:fixed;bottom:14px;left:50%;
+.bottom-nav{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;
   transform:translateX(-50%);
   width:calc(100% - 32px);max-width:420px;height:60px;
   background:white;border-radius:999px;
@@ -476,6 +477,11 @@ body[data-font="dandan"] .amt-input{font-size:26px}
 body[data-font="dandan"] .amt-pre{font-size:20px}
 body[data-font="dandan"] .sum-item .val{font-size:20px}
 body[data-font="dandan"] .hdr h1{font-size:25px}
+/* 導覽列顯示範圍（< 768px）統一底部留白 */
+@media(max-width:767px){
+  .content{padding-bottom:110px}
+  #app{padding-bottom:110px}
+}
 /* desktop */
 @media(min-width:768px){
   body{max-width:none;margin:0;padding-bottom:0}
@@ -1425,7 +1431,6 @@ function renderApp(){
 function renderTopBar(){
   const tabs=[{id:'add',img:'home',lbl:'首頁'},{id:'calendar',img:'calendar',lbl:'行事曆'},
     {id:'assets',img:'assets',lbl:'資產'},{id:'stats',img:'stats',lbl:'統計'},
-    {id:'history',img:'history',lbl:'歷史'},{id:'insurance',img:'insurance',lbl:'保險'},
     {id:'settings',img:'settings',lbl:'設定'}];
   return`<div class="top-bar"><div class="tbi"><div class="top-logo">🏡 記帳本</div>
     <nav class="top-nav">${tabs.map(t=>
@@ -1847,8 +1852,9 @@ function renderAssetsView(){
           </div>
         </div>
       </div>`;}).join('');
-    content=`${typeGroups}${uncatRows?`<div class="card" style="margin-bottom:12px">${uncatRows}</div>`:''}
-    <button class="add-fab" data-a="newAcc" style="margin-top:4px">＋ 新增帳戶</button>`;
+    content=`<button class="add-fab" data-a="newAcc" style="margin-bottom:12px">＋ 新增帳戶</button>
+    ${typeGroups}${uncatRows?`<div class="card" style="margin-bottom:12px">${uncatRows}</div>`:''}`;
+
   } else if(tab==='loans'){
     const totalDebt=state.loans.reduce((s,l)=>s+(l.remainingAmount||0),0);
     const totalMonthly=state.loans.reduce((s,l)=>s+(l.monthlyPayment||0),0);
@@ -1866,16 +1872,17 @@ function renderAssetsView(){
         </div>
       </div>
     </div>`).join('');
-    content=`${totalDebt>0?`<div class="card" style="background:linear-gradient(135deg,#FBF4F3,#F5ECEA);border-color:#E0CECC;margin-bottom:12px;display:flex;gap:24px">
+    content=`<button class="add-fab" data-a="newLoan" style="margin-bottom:12px">＋ 新增貸款</button>
+    ${totalDebt>0?`<div class="card" style="background:linear-gradient(135deg,#FBF4F3,#F5ECEA);border-color:#E0CECC;margin-bottom:12px;display:flex;gap:24px">
       <div><div style="font-size:11px;color:var(--text2);font-weight:700">總負債</div><div style="font-size:22px;font-weight:800;color:var(--expense)">$${fmt(totalDebt)}</div></div>
       <div><div style="font-size:11px;color:var(--text2);font-weight:700">每月還款</div><div style="font-size:22px;font-weight:800">$${fmt(totalMonthly)}</div></div>
     </div>`:''}
-    ${loanCards||`<div class="empty" style="padding:40px 20px"><div class="ei" style="font-size:36px">🏦</div><p>尚無貸款記錄</p></div>`}
-    <button class="add-fab" data-a="newLoan" style="margin-top:4px">＋ 新增貸款</button>`;
+    ${loanCards||`<div class="empty" style="padding:40px 20px"><div class="ei" style="font-size:36px">🏦</div><p>尚無貸款記錄</p></div>`}`;
   } else if(tab==='insurance'){
     const total=state.insurances.reduce((s,ins)=>s+insYearlyPremium(ins),0);
     const active=state.insurances.filter(ins=>insStatus(ins).cls==='active').length;
-    content=`<div class="card" style="background:linear-gradient(135deg,#E8EEF8,#EEF4FF);border-color:#C8D8F0;margin-bottom:12px;display:flex;gap:24px;align-items:center">
+    content=`<button class="add-fab" data-a="newIns" style="margin-bottom:12px">＋ 新增保單</button>
+    <div class="card" style="background:linear-gradient(135deg,#E8EEF8,#EEF4FF);border-color:#C8D8F0;margin-bottom:12px;display:flex;gap:24px;align-items:center">
       <div><div style="font-size:11px;color:var(--text2);font-weight:700">保單數量</div><div style="font-size:20px;font-weight:800">${state.insurances.length} 張<span style="font-size:12px;color:var(--text2);font-weight:600;margin-left:4px">${active} 張生效中</span></div></div>
       <div style="margin-left:auto;display:flex;gap:8px">
         <button class="outline-btn" style="font-size:12px;padding:6px 10px" data-a="importIns">📥 匯入</button>
@@ -1883,11 +1890,10 @@ function renderAssetsView(){
     </div>`+renderInsBodyHtml();
   }
   return`<div class="hdr"><div class="hdr-in">
-    <h1>資產總覽</h1>
+    <h1>家庭淨資產</h1>
     <div style="margin-top:6px">
-      <div style="font-size:13px;opacity:.85">家庭淨資產</div>
       <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-size:30px;font-weight:800">${hide?'* * * *':'$'+fmt(Math.abs(netWorth))}</div>
+        <div style="font-size:30px;font-weight:800;color:${!hide?(netWorth>=0?'rgba(255,255,255,.95)':'rgba(255,180,180,.95)'):'rgba(255,255,255,.6)'}">${hide?'* * * *':(netWorth<0?'-':'')+'$'+fmt(Math.abs(netWorth))}</div>
         <button class="eye-btn${hide?' off':''}" data-a="toggleHideBal">👁</button>
       </div>
       ${!hide?`<div style="font-size:12px;opacity:.8;margin-top:2px">資產 $${fmt(totalAssets)} · 負債 $${fmt(ccDebt+loanDebt)}</div>`:''}
@@ -1918,11 +1924,12 @@ function renderCalView(){
     const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dow=new Date(ds+'T00:00:00').getDay();
     const isToday=ds===today;const amt=dayMap[d];
-    const amtStr=amt?'$'+(amt>=10000?(amt/10000).toFixed(1)+'萬':amt>=1000?(amt/1000).toFixed(1)+'k':String(Math.round(amt))):'';
+    const amtStr=amt?'$'+Math.round(amt).toString():'';
+    const amtFs=amt>=1000000?'font-size:15px':'';
     cells+=`<div class="cal-day${isToday?' today':''}${amt?' has-exp':''}${dow===0?' sun':dow===6?' sat':''}"
       data-a="openDay" data-v="${ds}">
       <span class="cdn">${d}</span>
-      <span class="cda">${amtStr}</span>
+      <span class="cda" style="${amtFs}">${amtStr}</span>
     </div>`;
   }
   return`<div class="hdr"><div class="hdr-in">
@@ -2068,7 +2075,7 @@ function renderStatsView(){
   const txs=monthTxs(y,m);const sum=calcSum(txs);
   const catMap={};
   txs.filter(t=>t.type==='expense').forEach(t=>{catMap[t.category]=(catMap[t.category]||0)+t.amount;});
-  const catArr=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const catArr=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
   const catCard=catArr.length>0?`<div class="card">
     <div class="card-title">支出類別</div>
     ${catArr.map(([id,amt])=>{
@@ -2087,7 +2094,7 @@ function renderStatsView(){
   const now=new Date();ms.add(`${now.getFullYear()}-${now.getMonth()}`);
   Array.from(ms).sort().reverse().forEach(k=>{const[ky,km]=k.split('-').map(Number);allMonths.push({y:ky,m:km});});}
 
-  const PIE_COLORS=['#C8A5A3','#8090A8','#8DAD93','#C49830','#8B6CC8','#C45555'];
+  const PIE_COLORS=['#C8A5A3','#8090A8','#8DAD93','#C49830','#8B6CC8','#C45555','#4AA8A8','#C87840','#6080C8','#A8C460','#C870A8','#50A870','#C85050','#5090C8','#C8A050','#9050C8'];
   const secTitle=(t)=>`<div style="font-size:17px;font-weight:900;color:var(--text);padding:0 2px;margin-bottom:6px;margin-top:4px">${t}</div>`;
   return`<div class="hdr"><div class="hdr-in">
     <div class="hdr-row">
@@ -2128,7 +2135,7 @@ function renderStatsView(){
     <div style="display:flex;gap:10px;align-items:stretch;margin-bottom:16px">
       <div class="card" style="flex:1;min-width:0">
         <canvas id="cat-pie" width="160" height="160" style="display:block;margin:0 auto 10px;width:160px;height:160px"></canvas>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 0;row-gap:6px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:flex-start;gap:6px 0;row-gap:6px">
           ${catArr.map(([id,amt],i)=>{
             const cat=getCat('expense',id);
             const pct=Math.round((amt/sum.expense)*100);
@@ -2330,7 +2337,68 @@ function renderSettingsView(){
   if(state.settingsTab==='acctypes')return renderAccTypesView();
   if(state.settingsTab==='theme')return renderThemeView();
 
-  const sectionLabels={currency:'幣別管理',export:'匯出資料',password:'密碼鎖定',reset:'重設記帳',language:'語言設定',guide:'使用說明'};
+  if(state.settingsTab==='reset'){
+    return`<div class="hdr"><div class="hdr-in">
+      <div class="hdr-row">
+        <div><h1>重設記帳</h1></div>
+        <button class="cal-nb" data-a="stab" data-v="main">←</button>
+      </div>
+    </div></div>
+    <div class="content">
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">刪除範圍</div>
+        <div class="setting-row" style="padding:10px 0">
+          <div class="setting-ico" style="background:#FFF0F0;border:1px solid #FADADA">💸</div>
+          <div class="setting-info"><div class="setting-name">所有交易記錄與貸款</div><div class="setting-sub">全部收入、支出、轉帳、貸款記錄</div></div>
+        </div>
+        <div class="setting-row" style="padding:10px 0;border-bottom:none">
+          <div class="setting-ico" style="background:#FFF0F0;border:1px solid #FADADA">📚</div>
+          <div class="setting-info"><div class="setting-name">預設帳本以外的帳本</div><div class="setting-sub">共同帳本、個人副帳本全部刪除</div></div>
+        </div>
+      </div>
+      <div class="card" style="background:#FFF8F8;border-color:#FADADA;margin-bottom:16px">
+        <div style="font-size:13px;color:var(--expense);font-weight:700;margin-bottom:6px">⚠️ 注意</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7">無法復原。預設帳本保留但資料清空，帳戶設定、類別設定、外觀設定不受影響。</div>
+      </div>
+      <button class="save-btn" style="background:linear-gradient(135deg,#C45555,#D46868)" data-a="confirmReset">🗑️ 刪除所有記帳資料</button>
+    </div>`;
+  }
+  if(state.settingsTab==='export'){
+    const now=new Date();
+    const firstDay=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+    const lastDay=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(new Date(now.getFullYear(),now.getMonth()+1,0).getDate()).padStart(2,'0')}`;
+    const ef=state.exportForm||{start:firstDay,end:lastDay,bookId:'all'};
+    const books=[{id:'all',name:'全部帳本'},...(state.books||[]).filter(b=>!b.isArchived).map(b=>({id:b.id,name:b.name}))];
+    return`<div class="hdr"><div class="hdr-in">
+      <div class="hdr-row">
+        <div><h1>匯出資料</h1></div>
+        <button class="cal-nb" data-a="stab" data-v="main">←</button>
+      </div>
+    </div></div>
+    <div class="content">
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">匯出範圍</div>
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-field"><label>開始日期</label>
+            <input class="form-input" type="date" id="export-start" value="${ef.start}"></div>
+          <div class="form-field"><label>結束日期</label>
+            <input class="form-input" type="date" id="export-end" value="${ef.end}"></div>
+        </div>
+        <div class="slabel">帳本</div>
+        <div class="acc-row" style="flex-wrap:wrap;margin-bottom:0">
+          ${books.map(b=>`<button class="acc-pill${(ef.bookId||'all')===b.id?' active':''}" style="--acc-c:var(--p)" data-a="exportBook" data-v="${b.id}">${b.name}</button>`).join('')}
+        </div>
+      </div>
+      <div class="card" style="background:var(--surface);margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text2);line-height:1.8">
+          格式：CSV（可用 Excel、Numbers 開啟）<br>
+          欄位：日期、類型、類別、金額、帳戶、必要/想要、備註、帳本
+        </div>
+      </div>
+      <button class="save-btn green" data-a="doExport">📤 匯出 CSV</button>
+    </div>`;
+  }
+  const sectionLabels={currency:'幣別管理',guide:'使用說明'};
   if(sectionLabels[state.settingsTab]){
     return`<div class="hdr"><div class="hdr-in">
       <div class="hdr-row">
@@ -2353,16 +2421,11 @@ function renderSettingsView(){
     {id:'fixed',ico:'📋',name:'固定費用'},
     {id:'currency',ico:'💱',name:'幣別管理'},
     {id:'export',ico:'📤',name:'匯出資料'},
-    {id:'password',ico:'🔒',name:'密碼鎖定'},
     {id:'reset',ico:'🗑️',name:'重設記帳'},
-    {id:'language',ico:'🌐',name:'語言設定'},
     {id:'guide',ico:'📖',name:'使用說明'},
     {id:'theme',ico:'🎨',name:'外觀設定'},
   ];
-  return`<div class="hdr"><div class="hdr-in">
-    <h1>設定</h1>
-  </div></div>
-  <div class="content">
+  return`<div class="content" style="padding-top:20px">
     <div class="nick-block">
       <div class="nick-avatar">🐱</div>
       <div style="flex:1;display:flex;align-items:center;gap:10px">
@@ -2941,9 +3004,10 @@ function renderYearStatsView(){
   return`<div class="hdr"><div class="hdr-in">
     <div class="hdr-row">
       <div style="display:flex;align-items:center;gap:8px">
-        <h1>年份統計</h1>
+        <h1>統計</h1>
         <button class="stats-toggle-btn" data-a="statsView" data-v="month">月</button>
         <button class="stats-toggle-btn active" data-a="statsView" data-v="year">年</button>
+        <button class="stats-toggle-btn" data-a="statsView" data-v="history">明細</button>
       </div>
       <select id="stats-year-sel" class="stats-sel">
         ${allYears.map(yr=>`<option value="${yr}" ${y===yr?'selected':''} style="color:#3A2828;background:white">${yr}年</option>`).join('')}
@@ -3055,13 +3119,10 @@ function renderInsBodyHtml(){
     ...state.insMembers.map(m=>({name:m.name,icon:m.icon,id:m.id})),
     ...detectedExtra.map(n=>({name:n,icon:'👤',id:null})),
   ];
-  const personChips=`<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-    <div class="chips" style="flex:1;margin-bottom:0;flex-wrap:wrap">
-      <button class="chip${state.insPersonFilter==='all'?' ac':''}" data-a="insPersonFilt" data-v="all">👨‍👩‍👧 全家</button>
-      ${allMembers.map(m=>`<button class="chip${state.insPersonFilter===m.name?' ac':''}" data-a="insPersonFilt" data-v="${m.name}">${m.icon} ${m.name}${m.id?`<span data-a="editMember" data-v="${m.id}" style="margin-left:4px;opacity:.6;font-size:10px"> ···</span>`:`<span data-a="addDetectedMember" data-v="${m.name}" style="margin-left:4px;opacity:.6;font-size:10px"> ···</span>`}</button>`).join('')}
-      <button class="chip" data-a="newMember" style="border-style:dashed;color:var(--text2)">＋ 新增</button>
-    </div>
-    <button class="save-btn" data-a="newIns" style="flex-shrink:0;padding:7px 14px;font-size:18px;line-height:1;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;margin-bottom:0">＋</button>
+  const personChips=`<div class="chips" style="margin-bottom:6px;flex-wrap:wrap">
+    <button class="chip${state.insPersonFilter==='all'?' ac':''}" data-a="insPersonFilt" data-v="all">👨‍👩‍👧 全家</button>
+    ${allMembers.map(m=>`<button class="chip${state.insPersonFilter===m.name?' ac':''}" data-a="insPersonFilt" data-v="${m.name}">${m.icon} ${m.name}${m.id?`<span data-a="editMember" data-v="${m.id}" style="margin-left:4px;opacity:.6;font-size:10px"> ···</span>`:`<span data-a="addDetectedMember" data-v="${m.name}" style="margin-left:4px;opacity:.6;font-size:10px"> ···</span>`}</button>`).join('')}
+    <button class="chip" data-a="newMember" style="border-style:dashed;color:var(--text2)">＋ 新增成員</button>
   </div>`;
   const chips=`<div class="chips">${['all',...INS_TYPES].map(t=>
     `<button class="chip${state.insFilter===t?' ac':''}" data-a="insFilt" data-v="${t}">${t==='all'?'全部':t}</button>`
@@ -3478,6 +3539,53 @@ document.addEventListener('click',e=>{
       if(g)g.style.display='none';
       break;}
     case'stab':state.settingsTab=v;renderApp();break;
+    case'exportBook':{
+      const s=document.getElementById('export-start');const e=document.getElementById('export-end');
+      state.exportForm={start:s?.value||'',end:e?.value||'',bookId:v};
+      renderApp();break;}
+    case'doExport':{
+      const s=document.getElementById('export-start');const e=document.getElementById('export-end');
+      const ef=state.exportForm||{};
+      const start=s?.value||ef.start||'';const end=e?.value||ef.end||'';const bookId=ef.bookId||'all';
+      let txs=[...state.txs];
+      if(start)txs=txs.filter(t=>t.date>=start);
+      if(end)txs=txs.filter(t=>t.date<=end);
+      if(bookId!=='all')txs=txs.filter(t=>t.bookId===bookId);
+      txs.sort((a,b)=>a.date.localeCompare(b.date));
+      const getAccName=id=>{const a=state.accounts.find(x=>x.id===id);return a?a.name:id||'';};
+      const getBookName=id=>{const b=(state.books||[]).find(x=>x.id===id);return b?b.name:'預設帳本';};
+      const getCatName=(type,id)=>{const c=getCat(type,id);return c?c.name:id||'';};
+      const esc=v=>`"${String(v||'').replace(/"/g,'""')}"`;
+      const header='日期,類型,類別,金額,帳戶,必要想要,備註,帳本';
+      const rows=txs.map(t=>{
+        const type=t.type==='expense'?'支出':t.type==='income'?'收入':'轉帳';
+        const cat=t.type==='transfer'?'轉帳':getCatName(t.type,t.category);
+        const acc=t.type==='transfer'?`${getAccName(t.fromAccountId)}→${getAccName(t.toAccountId)}`:getAccName(t.accountId);
+        return[t.date,type,esc(cat),t.amount,esc(acc),t.necessity||'',esc(t.note),esc(getBookName(t.bookId))].join(',');
+      });
+      const csv='﻿'+header+'\n'+rows.join('\n');
+      const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download=`記帳本_${start||'all'}_${end||'all'}.csv`;
+      a.click();URL.revokeObjectURL(url);
+      showToast(`已匯出 ${txs.length} 筆記錄 ✓`);break;}
+    case'confirmReset':{
+      if(!confirm('確定要重設記帳？此操作無法復原。'))break;
+      if(!confirm('再次確認：所有交易記錄與非預設帳本將永久刪除，確定繼續？'))break;
+      Object.values(_roomListeners).forEach(unsub=>unsub());
+      for(const k in _roomListeners)delete _roomListeners[k];
+      state.txs=[];
+      state.loans=[];
+      state.books=(state.books||[]).filter(b=>b.isDefault).map(b=>{
+        const{roomCode:_r,createdBy:_c,...rest}=b;return rest;});
+      state.activeBook='all';
+      save('budget_txs',state.txs);
+      save('budget_loans',state.loans);
+      save('budget_books',state.books);
+      save('budget_active_book',state.activeBook);
+      state.settingsTab='main';
+      showToast('已重設完成 ✓');renderApp();break;}
     case'openBookPicker':state.modal={type:'bookPicker'};renderApp();break;
     case'switchBook':state.activeBook=v;save('budget_active_book',v);state.modal=null;renderApp();break;
     case'setFormBook':state.form.bookId=v;dmActive('[data-a="setFormBook"]',v);break;
@@ -3769,9 +3877,9 @@ function drawCatPie(){
   const{y,m}=state.statsMonth;
   const txs=monthTxs(y,m);
   const catMap={};txs.filter(t=>t.type==='expense').forEach(t=>{catMap[t.category]=(catMap[t.category]||0)+t.amount;});
-  const catArr=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const catArr=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
   const total=catArr.reduce((s,[,v])=>s+v,0);
-  const colors=['#C8A5A3','#8090A8','#8DAD93','#C49830','#8B6CC8','#C45555'];
+  const colors=['#C8A5A3','#8090A8','#8DAD93','#C49830','#8B6CC8','#C45555','#4AA8A8','#C87840','#6080C8','#A8C460','#C870A8','#50A870','#C85050','#5090C8','#C8A050','#9050C8'];
   const ctx=canvas.getContext('2d');const cx=80,cy=80,r=62,lw=24;
   ctx.clearRect(0,0,160,160);
   if(!total){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle='#E8D8D4';ctx.lineWidth=lw;ctx.stroke();return;}
